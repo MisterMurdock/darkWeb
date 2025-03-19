@@ -1,0 +1,25 @@
+Jonas Lundqvist - Dark web
+About Me:
+
+Hey there! I'm Jonas Lundqvist, a Java developer in training with a passion for all things coding. This website is essentially my digital playground where I like to explore the exciting intersection between technology and everything else – think fun facts about algorithms or surprising uses of AI. Basically, it's a place where I geek out on the latest developments and share them in an engaging, easy-to-understand way.
+
+Mission:
+
+My goal is to light up your day with interesting news articles about coding, technology, and even some creative tangents!  We're talking about exploring fun and thought-provoking stories that go beyond technical jargon, but still provide valuable insights into this ever-evolving world.
+
+The Idea:
+
+For my current project, I was tasked with creating something unique and engaging to showcase the breadth of HTML programming.  That’s how Darkweb came about – a website where every article is designed to spark curiosity and leave you wanting to learn more!
+
+Who Am I?:
+
+I'm all about making coding accessible and entertaining for everyone, no matter their tech background.  My favorite thing is turning complex concepts into something digestible and relatable – kind of like explaining the magic behind a good meme!
+
+Let’s Get Curious:
+
+Want to dive deeper into some fascinating IT stories or explore fun ideas about how AI shapes our world? Don't be shy – join me on this journey of exploring the fascinating intersection of technology and everything else.
+
+Let's connect!
+[Link to your email, social media, etc.]
+
+P.S. Feel free to reach out with any thoughts or ideas you have - I always love hearing from my fellow coding enthusiasts! 
