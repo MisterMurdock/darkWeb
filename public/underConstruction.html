@@ -6,6 +6,11 @@
     <title>Darkweb</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body{
+        padding-top: 20px;
+      }
+    </style>
 </head>
 <body class="bg-black">
     
@@ -22,11 +27,13 @@
     data-drawer-toggle="default-sidebar" 
     aria-controls="default-sidebar" 
     type="button" 
-    class="top-4 left-1 z-50 inline-flex items-center p-2 text-sm text-gray-500 rounded-lg hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+    class="top-4 left-1 z-50 inline-flex items-center p-2 text-sm rounded-lg focus:outline-none focus:ring-2 text-gray-400 hover:bg-gray-700 focus:ring-gray-600">
     <span class="sr-only">Toggle sidebar</span>
-    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-      <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
+    <svg class="w-[42px] h-[42px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 10 1.99994 1.9999-1.99994 2M12 5v14M5 4h14c.5523 0 1 .44772 1 1v14c0 .5523-.4477 1-1 1H5c-.55228 0-1-.4477-1-1V5c0-.55228.44772-1 1-1Z"/>
     </svg>
+    <span>Menu</span>
+    
   </button>
     <a href="index.html" class="flex items-center space-x-3 rtl:space-x-reverse">
         <img src=".\webimgs\FlexLogo.png" class="h-8" alt="FlexLogo">
@@ -44,10 +51,10 @@
         <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
             <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 bg-gray-800 md:bg-gray-900 dark:border-gray-700">
                 <li>
-                <a href="index.html" class="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="index.html">Home</a>
+                <a href="index.html" class="block py-2 px-3 text-white bg-blue-700 rounded-sm md:bg-transparent md:text-white md:hover:text-blue-500 md:p-0">Home</a>
                 </li>
                 <li>
-                <a href="about.html" class="block py-2 px-3 rounded-sm md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 text-white hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700">About</a>
+                <a href="about.html" class="block py-2 px-3 rounded-sm md:hover:text-blue-500 md:p-0 md:dark:hover:text-blue-500 text-white hover:bg-gray-700 hover:text-white md:hover:bg-transparent border-gray-700">About</a>
                 </li>
                 <li>
                     <a href="javascript:void(0)" 
@@ -179,7 +186,7 @@
     <!-- Main content area -->
     <div class ="mt-16">
 
-<div class="flex flex-col bg-white border border-gray-200 shadow-sm w-full dark:border-gray-700 dark:bg-gray-800">
+<div class="flex flex-col border shadow-sm w-full border-gray-700 bg-gray-800">
     <!-- Heading at the top -->
     
     <div class="flex flex-col md:flex-row">
@@ -188,7 +195,7 @@
         
         <!-- Text content that flows next to the image and continues underneath -->
         <div class="p-4 leading-normal">
-            <h5 class="w-full mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">UNDER CONSTRUCTION!</h5>
+            <h5 class="w-full mb-2 text-2xl font-bold tracking-tight text-white">UNDER CONSTRUCTION!</h5>
     
             <p class="font-normal text-gray-700 dark:text-gray-400" id="textContent">
                 <!-- Your text will be loaded here via JavaScript -->
@@ -279,6 +286,12 @@
   </script>
 
 <script>
+  document.getElementById('submitBtn').addEventListener('click', function() {
+    alert('Nothing is sent, but its nice that you took the time!');
+  });
+</script>
+
+<script>
     document.addEventListener('DOMContentLoaded', function() {
       const toggleButton = document.querySelector('[data-drawer-toggle="default-sidebar"]');
       const sidebar = document.getElementById('default-sidebar');
@@ -322,7 +335,7 @@
                     } else {
                         // It's a paragraph
                         const p = document.createElement('p');
-                        p.className = 'mb-4 font-normal text-gray-700 dark:text-gray-400';
+                        p.className = 'mb-4 font-normal text-gray-400';
                         p.innerHTML = paragraph.replace(/\n/g, '<br>');
                         contentContainer.appendChild(p);
                     }
