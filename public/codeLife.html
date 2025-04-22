@@ -48,6 +48,8 @@
           </div>
         </div>
       </div>
+      
+      <div id="likes-container"></div>
 
       <div id="comments-container"></div>
 
@@ -268,9 +270,35 @@
         }
       })
       .catch(function (error) {
-        console.error('Error loading navigation:', error);
+        console.error('Error loading footer:', error);
       });
   </script>
+
+  <!--Like script-->
+  <script>
+      // Function that runs when the page loads
+      window.onload = function() {
+            // Get the element where we want to put the imported content
+            const container = document.getElementById('likes-container');
+            
+            // Create a request to fetch the likes.html file
+            fetch('./myObjects/likes.html')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    // Simply insert the HTML content directly
+                    container.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error loading likes:', error);
+                    container.innerHTML = 'Failed to load content';
+                });
+        };
+</script>
 
   <!--Load text Script-->
 
