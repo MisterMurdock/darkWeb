@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        padding-top: 20px;
+      }
+    </style>
+</head>
+<body class="bg-black">
+    <!-- Main container with sidebar, navbar and content -->
+    <div class="min-h-screen bg-gray-900">
+
+        <div id="navigation-container"></div>
+      
+        <div class="relative">
+      
+      
+          <!-- Main content area -->
+          <div class="mt-16">
+            <div class="flex flex-col  border shadow-sm w-full border-gray-700 bg-gray-800">
+              <!-- Heading at the top -->
+      
+              <div class="flex flex-col md:flex-row">
+                <!-- Image in the top left corner -->
+                <img class="object-cover w-full md:w-2/5 md:h-auto" src="../webimgs/tell-your-story-book.png" alt="FlexLogo">
+      
+                <!-- Text content that flows next to the image and continues underneath -->
+                <div class="p-4 leading-normal">
+                  <h5 class="w-full mb-2 text-2xl italic font-bold tracking-tight text-white">Join the party and share an article!</h5>
+                  <p class="font-normal text-gray-400 mb-7" id="textContent">
+                    This is where you can share your thoughts, ideas, or any other content that you find interesting. The goal is to create a space where everyone can contribute and learn from each other. So, don't be shy! Share your article and let's get the conversation started.
+      
+                  </p>
+      
+      
+                  <label for="input-group-1" class="block mb-2 text-sm font-medium text-white">Title</label>
+                  <div class="relative mb-6">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 8h.01M9 8h.01M12 8h.01M4 11h16M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/>
+                          </svg>
+                          
+                    </div>
+                    <input id="title-input" type="text" id="input-group-1"
+                      class=" border text-sm rounded-lg block w-full ps-10 p-2.5  bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Enter your Title here" required>
+                  </div>
+
+                  <label for="input-group-1" class="block mb-2 text-sm font-medium text-white">Author name</label>
+                  <div class="relative mb-6">
+                    <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 8h.01M9 8h.01M12 8h.01M4 11h16M4 19h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/>
+                          </svg>
+                          
+                    </div>
+                    <input id="author-input" type="text" id="input-group-1"
+                      class=" border text-sm rounded-lg block w-full ps-10 p-2.5  bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Enter your name here" required>
+                  </div>
+
+
+                  <form class="max-w-lg o"mx-aut>
+                    <label class="block mb-2 text-sm font-medium text-white" for="user_avatar">Upload file</label>
+                    <input class="block w-full text-sm border rounded-lg cursor-pointer text-gray-400 focus:outline-none bg-gray-700 border-gray-600 placeholder-gray-400" aria-describedby="img-input-help" id="img-input" type="file">
+                    <div class="mt-1 mb-4 text-sm text-gray-300" id="img-input">Supported formats .jpg, .jpeg, .png</div>
+                  </form>
+                  
+
+                  <label for="website-admin" class="block mb-2 text-sm font-medium text-white">Article text</label>
+                  <div class="flex">
+                    <span
+                      class="inline-flex items-center px-3 text-sm border rounded-e-0 border-e-0 rounded-s-md bg-gray-600 text-gray-400 border-gray-600">
+                      <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 9h6m-6 3h6m-6 3h6M6.996 9h.01m-.01 3h.01m-.01 3h.01M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"/>
+                      </svg>
+                      
+                    </span>
+                    <textarea id="articleText" rows="4" class="w-full px-0 text-sm border-0 bg-gray-700 focus:ring-0 text-white placeholder-gray-400" placeholder=" Full article goes here..." required ></textarea>
+
+                  </div>
+                  <button id="uploadBtn" type="button"
+                    class="text-white mt-6 border border-gray-400 bg-gray-900 hover:bg-gray-700 focus:outline-none font-medium rounded-lg text-sm px-4 py-2 text-center">
+                    Upload!</button>
+      
+                </div>
+              </div>
+            </div>
+      
+            <div id="footer-container"></div>
+          </div>
+        </div>
+      
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+
+
+        <script>
+            document.getElementById('uploadBtn').addEventListener('click', function () {
+                alert('no action yet');
+            });
+            </script>
+      
+  <!--Footer script-->
+  <script>
+    fetch('../myObjects/footer.html')
+      .then(function (response) {
+        return response.text();
+      })
+      .then(function (htmlString) {
+        // Create a temporary container
+        const tempDiv = document.createElement('div');
+        // Set the HTML content
+        tempDiv.innerHTML = htmlString;
+        // Extract just the navigation element
+        const navElement = tempDiv.querySelector('footer');
+        // Insert the navigation into your container
+        if (navElement) {
+          document.getElementById('footer-container').innerHTML = navElement.outerHTML;
+        } else {
+          console.error('footer element not found in the loaded HTML');
+        }
+      })
+      .catch(function (error) {
+        console.error('Error loading navigation:', error);
+      });
+  </script>
+
+  <!--Navigation Script-->
+ <script>
+  fetch('../myObjects/navigation.html')
+   .then(response => {
+     if (!response.ok) {
+       throw new Error(`HTTP error! Status: ${response.status}`);
+     }
+     return response.text();
+   })
+   .then(html => {
+     // Insert the HTML
+     document.getElementById('navigation-container').innerHTML = html;
+     
+     // Handle scripts
+     const tempDiv = document.createElement('div');
+     tempDiv.innerHTML = html;
+     const scripts = tempDiv.querySelectorAll('script');
+     scripts.forEach(script => {
+       const newScript = document.createElement('script');
+       if (script.src) {
+         newScript.src = script.src;
+       } else {
+         newScript.textContent = script.textContent;
+       }
+       document.body.appendChild(newScript);
+     });
+     
+     // Re-initialize all Flowbite components
+     if (window.flowbite) {
+       if (typeof window.flowbite.initFlowbite === 'function') {
+         // For Flowbite v2.x
+         window.flowbite.initFlowbite();
+       } else {
+         // For Flowbite v1.x - initialize all component types
+         if (window.flowbite.initDrawers) window.flowbite.initDrawers();
+         if (window.flowbite.initDropdowns) window.flowbite.initDropdowns();
+         if (window.flowbite.initCollapses) window.flowbite.initCollapses();
+         // Add other component initializers as needed
+       }
+     }
+     
+     // Add manual event listeners for all interactive elements
+     
+     // 1. Handle drawer toggle buttons
+     document.querySelectorAll('[data-drawer-toggle]').forEach(button => {
+       const targetId = button.getAttribute('data-drawer-target');
+       const target = document.getElementById(targetId);
+       
+       if (target) {
+         button.addEventListener('click', () => {
+           target.classList.toggle('-translate-x-full');
+         });
+       }
+     });
+     
+     // 2. Handle drawer hide/close buttons
+     document.querySelectorAll('[data-drawer-hide]').forEach(button => {
+       const targetId = button.getAttribute('data-drawer-hide');
+       const target = document.getElementById(targetId);
+       
+       if (target) {
+         button.addEventListener('click', () => {
+           target.classList.add('-translate-x-full');
+         });
+       }
+     });
+     
+     // 3. Handle dropdown toggle buttons
+     document.querySelectorAll('[data-dropdown-toggle]').forEach(button => {
+       const targetId = button.getAttribute('data-dropdown-toggle');
+       const target = document.getElementById(targetId);
+       
+       if (target) {
+         button.addEventListener('click', () => {
+           target.classList.toggle('hidden');
+         });
+       }
+     });
+     
+     // 4. Handle collapse toggle buttons (for mobile menu)
+     document.querySelectorAll('[data-collapse-toggle]').forEach(button => {
+       const targetId = button.getAttribute('data-collapse-toggle');
+       const target = document.getElementById(targetId);
+       
+       if (target) {
+         button.addEventListener('click', () => {
+           target.classList.toggle('hidden');
+           
+           // Toggle aria-expanded attribute for accessibility
+           const expanded = button.getAttribute('aria-expanded') === 'true';
+           button.setAttribute('aria-expanded', !expanded);
+         });
+       }
+     });
+     
+     // Consider adding a small delay to ensure DOM is fully processed
+     setTimeout(() => {
+       if (window.flowbite && window.flowbite.initFlowbite) {
+         window.flowbite.initFlowbite();
+       }
+     }, 100);
+   })
+   .catch(error => console.error('Navigation loading error:', error));
+  </script>
+      
+      </body>
+      
+      </html>

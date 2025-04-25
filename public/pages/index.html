@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Darkweb</title>
+  <link rel="stylesheet" href="../style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js" defer> </script>
+  <script src="../logic/scripts.js" defer></script>
+  <style>
+    body {
+      padding-top: 91px;
+    }
+  </style>
+</head>
+
+<body class="bg-black">
+
+
+  <div id="navigation-container"></div>
+
+  <!-- Main container with sidebar, navbar and content -->
+  <div class="min-h-screen bg-gray-900">
+
+
+  <div class="relative">
+
+
+    <!-- Main content area -->
+    <div class="flex-1">
+      <!-- Additional content -->
+      <div>
+        <a href="writingHTML.html"
+          class="flex flex-col items-center border shadow-sm md:flex-row w-full border-gray-700 bg-gray-800 hover:bg-gray-700">
+          <img class="object-cover w-full h-96 md:h-auto md:w-2/5" src="../storyImgs/coding-text.jpg" alt="">
+          
+          <section class="flex flex-col justify-between p-4 leading-normal w-full md:w-2/3">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">Writing HTML will make you go crazy</h5>
+            <p class="mb-3 font-normal text-gray-400">So, you're thinking of diving into the world of HTML? Sweet! The
+              internet would be a much duller place without it, right?
+              But let me warn ya, folks...HTML has a way of turning even the most zen coder into a gibbering mess.</p>
+          </section>
+        </a>
+        <a href="codeWithMusic.html"
+          class="flex flex-col items-center border shadow-sm md:flex-row w-full border-gray-700 bg-gray-800 hover:bg-gray-700">
+          <section class="flex flex-col justify-between p-4 leading-normal w-full md:w-2/3">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">Coding while listening to music increases
+              productivity</h5>
+            <p class="mb-3 font-normal text-gray-400">You ever find yourself staring at your screen, eyes bloodshot,
+              fingers flying over keys in a frantic dance? Like a lone astronaut on a desolate moon base, you
+              desperately search for that elusive "Aha!" moment. But fear not! There's a secret weapon hidden in plain
+              sight: music.</p>
+          </section>
+          <img class="object-cover w-full h-96 md:h-auto md:w-1/3" src="../storyImgs/coding-notes.jpg" alt="">
+        </a>
+        <a href="signup.html"
+          class="relative flex border shadow-md w-full border-gray-700 bg-gray-800 hover:bg-gray-700">
+          <img class="object-cover w-full h-60" src="../storyImgs/dark-pocadots.jpg" alt="dark-pocadots">
+          <section
+            class="absolute inset-0 flex flex-col justify-center p-4 bg-gradient-to-t from-black/70 to-transparent">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-white hover:text-grey-400">Don't miss out on out
+              weekly news letter!</h5>
+            <p class="mb-3 font-normal text-gray-200 hover:text-grey-300">Click here to subscribe now!</p>
+
+          </section>
+        </a>
+        <a href="codeLife.html"
+          class="flex flex-col items-center border shadow-md md:flex-row w-full border-gray-700 bg-gray-800 hover:bg-gray-700">
+          <img class="object-cover w-full h-96 md:h-auto md:w-2/5" src="../storyImgs/coding-next-gen.jpeg"
+            alt="screen alive">
+          <section class="flex flex-col justify-between p-4 leading-normal w-full md:w-2/3">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">Java is reshaping our perception of reality
+              itself.</h5>
+            <p class="mb-3 font-normal text-gray-400">There's a shift happening in how we perceive and understand the
+              world. It's subtle at first, almost imperceptible, but it's growing louder, echoing through every corner
+              of our daily lives. We’re moving from a world based on analog experience to one built on digital logic – a
+              reality rewritten by the very language that drives our computers.</p>
+          </section>
+        </a>
+        <a href="darkMode.html"
+          class="relative flex border shadow-md w-full border-gray-700 bg-gray-800 hover:bg-gray-700">
+          <img class="object-cover w-full h-96" src="../storyImgs/darkmode.png" alt="darkmode">
+          <section class="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black/90 to-transparent">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">Dark Mode: The New Standard Illuminating the
+              Web</h5>
+            <p class=" font-normal text-gray-200">Forget the traditional white on black – dark mode is the wave of the
+              future, and it's not just a passing trend.</p>
+            <p class="mb-3 font-normal text-gray-200">It's becoming an essential part of the web experience, shaping how
+              we interact with information online.</p>
+          </section>
+        </a>
+        </a>
+        <a href="lateNightSessions.html"
+          class="flex flex-col items-center border shadow-sm md:flex-row w-full border-gray-700 bg-gray-800 hover:bg-gray-700">
+          <img class="object-cover w-full h-96 md:h-auto md:w-2/5" src="../storyImgs/coding-vibrant.png"
+            alt="vibrant coding">
+          <section class="flex flex-col justify-between p-4 leading-normal w-full md:w-2/3">
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">Late night coding sessions recommended</h5>
+            <p class="mb-3 font-normal italic text-gray-400">"In the hush of night, where code takes flight,
+              The screen illuminates, banishing the light.
+              Each keystroke whispers a digital dream,
+              Where logic blooms and challenges gleam."</p>
+          </section>
+        </a>
+
+        <din id="footer-container"></din>
+      </div>
+    </div>
+  </div>
+  </div>
+
+
+
+      <!--Navigation Script-->
+      <script>
+       fetch('./myObjects/navigation.html')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.text();
+        })
+        .then(html => {
+          // Insert the HTML
+          document.getElementById('navigation-container').innerHTML = html;
+          
+          // Handle scripts
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = html;
+          const scripts = tempDiv.querySelectorAll('script');
+          scripts.forEach(script => {
+            const newScript = document.createElement('script');
+            if (script.src) {
+              newScript.src = script.src;
+            } else {
+              newScript.textContent = script.textContent;
+            }
+            document.body.appendChild(newScript);
+          });
+          
+          // Re-initialize all Flowbite components
+          if (window.flowbite) {
+            if (typeof window.flowbite.initFlowbite === 'function') {
+              // For Flowbite v2.x
+              window.flowbite.initFlowbite();
+            } else {
+              // For Flowbite v1.x - initialize all component types
+              if (window.flowbite.initDrawers) window.flowbite.initDrawers();
+              if (window.flowbite.initDropdowns) window.flowbite.initDropdowns();
+              if (window.flowbite.initCollapses) window.flowbite.initCollapses();
+              // Add other component initializers as needed
+            }
+          }
+          
+          // Add manual event listeners for all interactive elements
+          
+          // 1. Handle drawer toggle buttons
+          document.querySelectorAll('[data-drawer-toggle]').forEach(button => {
+            const targetId = button.getAttribute('data-drawer-target');
+            const target = document.getElementById(targetId);
+            
+            if (target) {
+              button.addEventListener('click', () => {
+                target.classList.toggle('-translate-x-full');
+              });
+            }
+          });
+          
+          // 2. Handle drawer hide/close buttons
+          document.querySelectorAll('[data-drawer-hide]').forEach(button => {
+            const targetId = button.getAttribute('data-drawer-hide');
+            const target = document.getElementById(targetId);
+            
+            if (target) {
+              button.addEventListener('click', () => {
+                target.classList.add('-translate-x-full');
+              });
+            }
+          });
+          
+          // 3. Handle dropdown toggle buttons
+          document.querySelectorAll('[data-dropdown-toggle]').forEach(button => {
+            const targetId = button.getAttribute('data-dropdown-toggle');
+            const target = document.getElementById(targetId);
+            
+            if (target) {
+              button.addEventListener('click', () => {
+                target.classList.toggle('hidden');
+              });
+            }
+          });
+          
+          // 4. Handle collapse toggle buttons (for mobile menu)
+          document.querySelectorAll('[data-collapse-toggle]').forEach(button => {
+            const targetId = button.getAttribute('data-collapse-toggle');
+            const target = document.getElementById(targetId);
+            
+            if (target) {
+              button.addEventListener('click', () => {
+                target.classList.toggle('hidden');
+                
+                // Toggle aria-expanded attribute for accessibility
+                const expanded = button.getAttribute('aria-expanded') === 'true';
+                button.setAttribute('aria-expanded', !expanded);
+              });
+            }
+          });
+          
+          // Consider adding a small delay to ensure DOM is fully processed
+          setTimeout(() => {
+            if (window.flowbite && window.flowbite.initFlowbite) {
+              window.flowbite.initFlowbite();
+            }
+          }, 100);
+        })
+        .catch(error => console.error('Navigation loading error:', error));
+       </script>
+
+           <!--Footer script-->
+  <script>
+    fetch('./myObjects/footer.html')
+      .then(function (response) {
+        return response.text();
+      })
+      .then(function (htmlString) {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = htmlString;
+        const navElement = tempDiv.querySelector('footer');
+        if (navElement) {
+          document.getElementById('footer-container').innerHTML = navElement.outerHTML;
+        } else {
+          console.error('footer element not found in the loaded HTML');
+        }
+      })
+      .catch(function (error) {
+        console.error('Error loading navigation:', error);
+      });
+  </script>
+</body>
+
+</html>

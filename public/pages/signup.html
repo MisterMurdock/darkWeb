@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Darkweb</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      padding-top: 20px;
+    }
+  </style>
+</head>
+
+<body class="bg-black">
+
+
+  <!-- Main container with sidebar, navbar and content -->
+  <div class="min-h-screen bg-gray-900">
+
+
+
+    <div id="navigation-container"></div>
+
+  <div class="relative">
+
+
+    <!-- Main content area -->
+    <div class="mt-16">
+      <div class="flex flex-col  border shadow-sm w-full border-gray-700 bg-gray-800">
+        <!-- Heading at the top -->
+
+        <div class="flex flex-col md:flex-row">
+          <!-- Image in the top left corner -->
+          <img class="object-cover w-full md:w-2/5 md:h-auto" src="../webimgs/FlexLogo.png" alt="FlexLogo">
+
+          <!-- Text content that flows next to the image and continues underneath -->
+          <div class="p-4 leading-normal">
+            <h5 class="w-full mb-2 text-2xl italic font-bold tracking-tight text-white">"I mean, what are we, a team?
+              No, we're a chemical mixture that makes chaos. We're a time bomb." -Bruce Banner</h5>
+            <p class="font-normal text-gray-400" id="textContent">
+              How fantastic you want to signup for this... whatever this is! Unfortunately this is unavailable at the
+              moment!
+              Try again at another time!
+
+            </p>
+
+
+            <label for="input-group-1" class="block mb-2 text-sm font-medium text-white">Your Email</label>
+            <div class="relative mb-6">
+              <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
+                  <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z" />
+                  <path
+                    d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z" />
+                </svg>
+              </div>
+              <input type="text" id="input-group-1"
+                class=" border text-sm rounded-lg block w-full ps-10 p-2.5  bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                placeholder="name@flowbite.com">
+            </div>
+            <label for="website-admin" class="block mb-2 text-sm font-medium text-white">Username</label>
+            <div class="flex">
+              <span
+                class="inline-flex items-center px-3 text-sm border rounded-e-0 border-e-0 rounded-s-md bg-gray-600 text-gray-400 border-gray-600">
+                <svg class="w-4 h-4 text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm0 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 13a8.949 8.949 0 0 1-4.951-1.488A3.987 3.987 0 0 1 9 13h2a3.987 3.987 0 0 1 3.951 3.512A8.949 8.949 0 0 1 10 18Z" />
+                </svg>
+              </span>
+              <input type="text" id="website-admin"
+                class="rounded-none rounded-e-lg border block flex-1 min-w-0 w-full text-sm p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white"
+                placeholder="elonmusk">
+            </div>
+            <button id="signupBtn" type="button"
+              class="text-white mt-6 border border-gray-400 bg-gray-900 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-400 font-medium rounded-lg text-sm px-4 py-2 text-center">Sign
+              up!</button>
+
+          </div>
+        </div>
+      </div>
+
+      <div id="footer-container"></div>
+    </div>
+  </div>
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.0/flowbite.min.js"></script>
+
+
+  <script>
+    document.getElementById('signupBtn').addEventListener('click', function () {
+      alert('Nothing happend, we keep no data.');
+    });
+  </script>
+
+  <!--Navigation Script-->
+  <script>
+    fetch('../myObjects/navigation.html')
+     .then(response => {
+       if (!response.ok) {
+         throw new Error(`HTTP error! Status: ${response.status}`);
+       }
+       return response.text();
+     })
+     .then(html => {
+       // Insert the HTML
+       document.getElementById('navigation-container').innerHTML = html;
+       
+       // Handle scripts
+       const tempDiv = document.createElement('div');
+       tempDiv.innerHTML = html;
+       const scripts = tempDiv.querySelectorAll('script');
+       scripts.forEach(script => {
+         const newScript = document.createElement('script');
+         if (script.src) {
+           newScript.src = script.src;
+         } else {
+           newScript.textContent = script.textContent;
+         }
+         document.body.appendChild(newScript);
+       });
+       
+       // Re-initialize all Flowbite components
+       if (window.flowbite) {
+         if (typeof window.flowbite.initFlowbite === 'function') {
+           // For Flowbite v2.x
+           window.flowbite.initFlowbite();
+         } else {
+           // For Flowbite v1.x - initialize all component types
+           if (window.flowbite.initDrawers) window.flowbite.initDrawers();
+           if (window.flowbite.initDropdowns) window.flowbite.initDropdowns();
+           if (window.flowbite.initCollapses) window.flowbite.initCollapses();
+           // Add other component initializers as needed
+         }
+       }
+       
+       // Add manual event listeners for all interactive elements
+       
+       // 1. Handle drawer toggle buttons
+       document.querySelectorAll('[data-drawer-toggle]').forEach(button => {
+         const targetId = button.getAttribute('data-drawer-target');
+         const target = document.getElementById(targetId);
+         
+         if (target) {
+           button.addEventListener('click', () => {
+             target.classList.toggle('-translate-x-full');
+           });
+         }
+       });
+       
+       // 2. Handle drawer hide/close buttons
+       document.querySelectorAll('[data-drawer-hide]').forEach(button => {
+         const targetId = button.getAttribute('data-drawer-hide');
+         const target = document.getElementById(targetId);
+         
+         if (target) {
+           button.addEventListener('click', () => {
+             target.classList.add('-translate-x-full');
+           });
+         }
+       });
+       
+       // 3. Handle dropdown toggle buttons
+       document.querySelectorAll('[data-dropdown-toggle]').forEach(button => {
+         const targetId = button.getAttribute('data-dropdown-toggle');
+         const target = document.getElementById(targetId);
+         
+         if (target) {
+           button.addEventListener('click', () => {
+             target.classList.toggle('hidden');
+           });
+         }
+       });
+       
+       // 4. Handle collapse toggle buttons (for mobile menu)
+       document.querySelectorAll('[data-collapse-toggle]').forEach(button => {
+         const targetId = button.getAttribute('data-collapse-toggle');
+         const target = document.getElementById(targetId);
+         
+         if (target) {
+           button.addEventListener('click', () => {
+             target.classList.toggle('hidden');
+             
+             // Toggle aria-expanded attribute for accessibility
+             const expanded = button.getAttribute('aria-expanded') === 'true';
+             button.setAttribute('aria-expanded', !expanded);
+           });
+         }
+       });
+       
+       // Consider adding a small delay to ensure DOM is fully processed
+       setTimeout(() => {
+         if (window.flowbite && window.flowbite.initFlowbite) {
+           window.flowbite.initFlowbite();
+         }
+       }, 100);
+     })
+     .catch(error => console.error('Navigation loading error:', error));
+    </script>
+  
+    <!--Footer script-->
+    <script>
+      fetch('../myObjects/footer.html')
+        .then(function (response) {
+          return response.text();
+        })
+        .then(function (htmlString) {
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = htmlString;
+          const navElement = tempDiv.querySelector('footer');
+          if (navElement) {
+            document.getElementById('footer-container').innerHTML = navElement.outerHTML;
+          } else {
+            console.error('footer element not found in the loaded HTML');
+          }
+        })
+        .catch(function (error) {
+          console.error('Error loading navigation:', error);
+        });
+    </script>
+
+
+</body>
+
+</html>
