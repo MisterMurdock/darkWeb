@@ -1,57 +1,10 @@
 
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOM fully loaded, initializing functions');
-  // supportBtnAlert();
-  // submitBtnAlert();
-  // sidebarToggle();
   loadFooter();
   loadNavBar();
 });
 
-//   function supportBtnAlert() {
-//     console.log('Script sprt loaded');
-//     document.getElementById('supportBtn').addEventListener('click', function () {
-//       alert('Thanks for the support! Feels better already =D');
-//     });}
-
-// function submitBtnAlert() {
-//   console.log('Script submit loaded');
-//     document.getElementById('submitBtn').addEventListener('click', function () {
-//       alert('Nothing is sent, but its nice that you took the time!');
-//     });}
-
-
-// // function sidebarToggle() {
-// //     document.addEventListener('DOMContentLoaded', function () {
-// //       const toggleButton = document.querySelector('[data-drawer-toggle="default-sidebar"]');
-// //       const sidebar = document.getElementById('default-sidebar');
-
-// //       if (toggleButton && sidebar) {
-// //         // Add click event listener
-// //         toggleButton.addEventListener('click', function () {
-// //           sidebar.classList.toggle('-translate-x-full');
-// //         });
-// //       }
-// //     });}
-
-// function sidebarToggle() {
-//   console.log('Script loaded');
-//   // Remove the nested DOMContentLoaded event
-//   // const toggleButton = document.querySelector('[data-drawer-toggle="default-sidebar"]');
-//   // const sidebar = document.getElementById('default-sidebar');
-
-//   if (toggleButton && sidebar) {
-//     // Add click event listener
-//     toggleButton.addEventListener('click', function () {
-//       sidebar.classList.toggle('-translate-x-full');
-//     });
-//   } else {
-//     console.warn('Sidebar toggle: Elements not found', { 
-//       toggleButton: !!toggleButton, 
-//       sidebar: !!sidebar 
-//     });
-//   }
-// }
 
 function loadFooter() {
   console.log('Script loaded');
