@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Article successfully created and saved!');
             
             // Optionally redirect to view all articles
-            // window.location.href = 'articles.html';
+            window.location.href = 'viewArticles.html';
             
             // Or clear the form for a new article
             titleInput.value = '';

@@ -1,11 +1,11 @@
-// viewArticles.js
+// viewArticles.js - Updated version
 
 document.addEventListener('DOMContentLoaded', function() {
     const articlesContainer = document.getElementById('articles-container');
     
     // Load and display all articles
     function loadArticles() {
-        const articles = ArticleManager.getAllArticles();
+        const articles = getArticlesFromStorage();
         
         // Clear the container
         articlesContainer.innerHTML = '';
@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const articleCard = document.createElement('div');
             articleCard.className = 'border border-gray-700 bg-gray-800 rounded-lg overflow-hidden shadow-lg';
             articleCard.innerHTML = `
+            <a href="../myObjects/fullArticleTemplate.html?id=${article.id}">
                 <div class="h-full flex flex-col">
                     ${hasImage ? 
                         `<div class="h-48 overflow-hidden">
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             </svg>
                         </div>`
                     }
-                    <div class="p-4 flex-grow">
+                    <div class="p-4 flex-grow hover:bg-gray-700 transition duration-200 ease-in-out">
                         <h5 class="mb-2 text-xl font-bold tracking-tight text-white">${article.title}</h5>
                         <p class="text-sm text-gray-400 mb-1">By ${article.author} • ${article.date}</p>
                         <p class="font-normal text-gray-300 line-clamp-3 mb-4">${article.content.substring(0, 150)}${article.content.length > 150 ? '...' : ''}</p>
@@ -60,35 +61,27 @@ document.addEventListener('DOMContentLoaded', function() {
                                     ${article.likes || 0}
                                 </span>
                             </div>
-                            <button data-id="${article.id}" class="view-article-btn text-blue-500 hover:text-blue-400 text-sm">
+                            <a href="../myObjects/fullArticleTemplate.html?id=${article.id}" class="text-blue-500 hover:text-blue-400 text-sm">
                                 Read more →
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
+                </a>
             `;
             
             articlesContainer.appendChild(articleCard);
-            
-            // Add event listener to the button
-            articleCard.querySelector('.view-article-btn').addEventListener('click', function() {
-                const articleId = this.getAttribute('data-id');
-                viewArticleDetail(articleId);
-            });
         });
     }
     
-    // Handle view article detail
-    function viewArticleDetail(articleId) {
-        // You can implement this to navigate to a detail page
-        // For now, we'll just alert the article details
-        const article = ArticleManager.getArticleById(articleId);
-        if (article) {
-            // Ideally redirect to a detail page:
-            // window.location.href = `articleDetail.html?id=${articleId}`;
-            
-            // For demonstration, show in alert:
-            alert(`Title: ${article.title}\nAuthor: ${article.author}\nDate: ${article.date}\n\n${article.content}`);
+    // Helper function to get articles from localStorage
+    function getArticlesFromStorage() {
+        try {
+            const articlesJSON = localStorage.getItem('darkweb_articles');
+            return articlesJSON ? JSON.parse(articlesJSON) : [];
+        } catch (error) {
+            console.error("Error loading articles:", error);
+            return [];
         }
     }
     

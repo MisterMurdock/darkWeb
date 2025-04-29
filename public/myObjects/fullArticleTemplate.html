@@ -4,11 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Darkweb</title>
+  <title>Article - Darkweb</title>
   <link rel="stylesheet" href="/src/input.css">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js" defer> </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js" defer></script>
   <script src="../logic/scripts.js" defer></script>
+  <!-- Add the article detail script -->
+  <script src="../logic/articleManager.js"></script>
+  <script src="../logic/viewArticleDetailed.js" defer></script>
+
 </head>
 <style>
   body {
@@ -23,40 +27,68 @@
 
     <div id="navigation-container"></div>
 
-  <div class="relative">
+    <div class="relative">
 
-    <!-- Main content area -->
-    <div class="mt-16">
-      <div class="flex flex-col border shadow-sm w-full border-gray-700 bg-gray-800">
-        <!-- Heading at the top -->
+      <!-- Main content area -->
+      <div class="mt-16">
+        <div class="flex flex-col border shadow-sm w-full border-gray-700 bg-gray-800">
+          <!-- Heading at the top -->
 
-        <div class="flex flex-col md:flex-row">
-          <!-- Image in the top left corner -->
-           <!--INPUT USER IMG-->
-          <img class="object-cover w-full md:w-2/5 md:h-auto" src="" alt="screen alive">
+          <div class="flex flex-col md:flex-row">
+            <!-- Image in the top left corner -->
+            <img class="object-cover w-full md:w-2/5 md:h-auto" src="" alt="Article image">
 
-          <!-- Text content that flows next to the image and continues underneath -->
-           <!--INPUT USER TITLE-->
-          <div class="p-4 leading-normal">
-            <h5 class="w-full mb-2 text-2xl font-bold tracking-tight text-white">The Reality Rewrite: How Java Reshapes
-              Our Understanding</h5>
+            <!-- Text content that flows next to the image and continues underneath -->
+            <div class="p-4 leading-normal">
+              <h5 class="w-full mb-2 text-2xl font-bold tracking-tight text-white">Loading article...</h5>
 
-              <!-- REWRITE -> INPUT USER FULL TEXT-->
-            <p class="font-normal text-gray-700 dark:text-gray-400" id="textContent">
-              <!-- Your text will be loaded here via JavaScript -->
-              Text will appear here after loading...
-            </p>
+              <!-- Article content will be loaded here -->
+              <p class="font-normal text-gray-300 dark:text-gray-300" id="textContent">
+                Loading article content...
+              </p>
+            </div>
           </div>
         </div>
+
+        <!-- Likes/dislikes section -->
+        <div id="likes-container" class="mt-4">
+          <!-- Will be populated by JavaScript -->
+        </div>
+
+        <!-- Comments section -->
+        <div id="comments-container" class="mt-8">
+          
+          <!-- Will be populated by JavaScript -->
+        </div>
+        
+
+        <!-- Back to articles link -->
+        <div class=" mb-5 px-4">
+          <hr class="my-6 sm:mx-auto border-gray-700 lg:my-8" />
+          <a href="../pages/viewArticles.html" class="text-blue-500 hover:text-blue-400 flex items-center">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            Back to all user articles
+          </a>
+        </div>
+        <div class="mt-5 px-4">
+          <a href="../pages/index.html" class="text-blue-500 hover:text-blue-400 flex items-center">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            Back Home
+          </a>
+        </div>
+        <div class="flex flex-row w-full md:flex-row relative size-10">
+          <button id="delete-article-btn" class="absolute inset-y-0 right-0 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+              Delete Article
+          </button>
       </div>
-      
-      <div id="likes-container"></div>
 
-      <div id="comments-container"></div>
-
-      <div id="footer-container"></div>
+        <div id="footer-container"></div>
+      </div>
     </div>
   </div>
-  
 </body>
 </html>
