@@ -1,4 +1,4 @@
-// createArticle.js - Add this to your HTML or save as a separate file
+// createArticle.js - Updated with default image and toast notification
 
 // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const imageInput = document.getElementById('img-input');
     const uploadBtn = document.getElementById('uploadBtn');
 
+    const DEFAULT_IMAGE = '../public/storyImgs/default-img.jpg';
     // Add event listener to the upload button
     uploadBtn.addEventListener('click', async function() {
         // Validate inputs
@@ -26,10 +27,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            // Process image if provided
-            let imageSrc = null;
+            // Process image if provided, otherwise use default
+            let imageSrc = DEFAULT_IMAGE; // Start with default image
+            
             if (imageInput.files && imageInput.files[0]) {
-                imageSrc = await handleImageFile(imageInput.files[0]);
+                try {
+                    imageSrc = await handleImageFile(imageInput.files[0]);
+                } catch (imgError) {
+                    console.warn('Error processing image, using default:', imgError);
+                    // Keep using default image if there's an error
+                }
             }
 
             // Create new article
@@ -43,24 +50,46 @@ document.addEventListener('DOMContentLoaded', function() {
             // Save article
             const articleId = ArticleManager.saveArticle(article);
 
-            // Show success message
-            alert('Article successfully created and saved!');
+            // Show success toast instead of alert
+            if (typeof showToast === 'function') {
+                showToast('success', 'Article successfully created!');
+            } else {
+                alert('Article successfully created and saved!');
+            }
             
-            // Optionally redirect to view all articles
-            window.location.href = 'viewArticles.html';
-            
-            // Or clear the form for a new article
-            titleInput.value = '';
-            authorInput.value = '';
-            articleTextArea.value = '';
-            imageInput.value = '';
+            // Delay redirect to allow toast to be seen
+            setTimeout(() => {
+                // Redirect to view all articles
+                window.location.href = 'viewArticles.html';
+            }, 1500);
             
         } catch (error) {
             console.error('Error saving article:', error);
-            alert('Failed to save article. Please try again.');
+            
+            // Show error toast if available, otherwise fallback to alert
+            if (typeof showToast === 'function') {
+                showToast('error', 'Failed to save article. Please try again.');
+            } else {
+                alert('Failed to save article. Please try again.');
+            }
         }
     });
 
-    // Optional: Add preview functionality
-    // Implement if needed
+    // Helper function for handling image files (if not already defined elsewhere)
+    // This is a placeholder - use your actual image handling function
+    async function handleImageFile(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                resolve(e.target.result); // This will be a data URL like "data:image/jpeg;base64,..."
+            };
+            
+            reader.onerror = function(e) {
+                reject(new Error('Error reading image file'));
+            };
+            
+            reader.readAsDataURL(file);
+        });
+    }
 });

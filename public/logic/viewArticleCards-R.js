@@ -1,0 +1,91 @@
+// viewArticles.js - Updated version with alternating layout and larger images
+
+document.addEventListener('DOMContentLoaded', function() {
+    const articlesContainer = document.getElementById('articles-container');
+    
+    // Load and display all articles
+    function loadArticles() {
+        const articles = getArticlesFromStorage();
+        
+        // Clear the container
+        articlesContainer.innerHTML = '';
+        
+        if (articles.length === 0) {
+            articlesContainer.innerHTML = `
+                <div class="flex justify-center items-center col-span-full py-12">
+                    <p class="text-gray-400 text-lg">No articles found. Be the first to create one!</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Sort articles by date (newest first)
+        articles.sort((a, b) => new Date(b.date) - new Date(a.date));
+        
+        // Generate article cards
+        articles.forEach((article, index) => {
+            const hasImage = article.images && article.images.length > 0;
+            const isEven = index % 2 === 0;
+            
+            const articleCard = document.createElement('a');
+            articleCard.href = `../myObjects/fullArticleTemplate.html?id=${article.id}`;
+            articleCard.className = 'flex flex-col items-center border shadow-sm md:flex-row w-full border-gray-700 bg-gray-800 hover:bg-gray-700 transition duration-200 ease-in-out';
+            
+            // Content section
+            const contentSection = `
+                <section class="flex flex-col justify-between p-4 leading-normal w-full md:w-2/3">
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">${article.title}</h5>
+                    <p class="text-sm text-gray-400 mb-1">By ${article.author} • ${article.date}</p>
+                    <p class="mb-3 font-normal text-gray-400">${article.content.substring(0, 200)}${article.content.length > 200 ? '...' : ''}</p>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-4">
+                            <span class="flex items-center text-sm text-gray-400">
+                                <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6C4.5 6 2 12 2 12s2.5 6 10 6 10-6 10-6-2.5-6-10-6z"/>
+                                    <circle cx="12" cy="12" r="3" stroke="currentColor"/>
+                                </svg>
+                                ${article.comments ? article.comments.length : 0} comments
+                            </span>
+                            <span class="flex items-center text-sm text-gray-400">
+                                <svg class="w-4 h-4 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12m-8-6h16"/>
+                                </svg>
+                                ${article.likes || 0} likes
+                            </span>
+                        </div>
+                    </div>
+                </section>
+            `;
+            
+            // Image section
+            const imageSection = hasImage ? 
+                `<img class="object-cover w-full h-96 md:h-auto md:w-1/3" src="${article.images[0]}" alt="${article.title}">` : 
+                `<div class="w-full h-96 md:h-auto md:w-1/3 bg-gray-700 flex items-center justify-center">
+                    <svg class="w-12 h-12 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 8H4m0 4h8m-8 4h8M15.488 8v4L19 8v8"/>
+                    </svg>
+                </div>`;
+            
+            // Alternate image position based on index (even/odd)
+            articleCard.innerHTML = isEven ? 
+                `${contentSection}${imageSection}` : 
+                `${imageSection}${contentSection}`;
+            
+            articlesContainer.appendChild(articleCard);
+        });
+    }
+    
+    // Helper function to get articles from localStorage
+    function getArticlesFromStorage() {
+        try {
+            const articlesJSON = localStorage.getItem('darkweb_articles');
+            return articlesJSON ? JSON.parse(articlesJSON) : [];
+        } catch (error) {
+            console.error("Error loading articles:", error);
+            return [];
+        }
+    }
+    
+    // Load articles when page loads
+    loadArticles();
+});

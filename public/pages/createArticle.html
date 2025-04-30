@@ -7,6 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js" defer> </script>
     <script src="../logic/scripts.js" defer></script>
+    <script src="../logic/articleManager.js"></script>
+    <script src="../logic/toast.js"></script>
     <script src="../logic/articleManager.js" defer></script>
     <style>
       body {
@@ -147,8 +149,7 @@
             // Save article
             const articleId = ArticleManager.saveArticle(article);
 
-            // Show success message
-            alert('Article successfully created and saved!');
+            
             
             // Optionally redirect to view all articles
             // window.location.href = 'articles.html';
@@ -163,6 +164,12 @@
             console.error('Error saving article:', error);
             alert('Failed to save article. Please try again.');
         }
+        showToast('success');
+    
+    // Redirect to article list or the new article
+    setTimeout(() => {
+        window.location.href = '../pages/viewArticles.html';
+    }, 1500);
     });
 
     // Optional: Add preview functionality

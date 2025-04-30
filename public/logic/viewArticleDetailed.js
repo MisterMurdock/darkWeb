@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.getElementById('delete-article-btn').addEventListener('click', function() {
     console.log("Delete button clicked");
     
+    // Get article ID from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const articleId = urlParams.get('id');
     console.log("Article ID:", articleId);
@@ -38,45 +39,27 @@ document.getElementById('delete-article-btn').addEventListener('click', function
     if (confirm("Are you sure you want to delete this article?")) {
         console.log("Deletion confirmed, attempting to delete article with ID:", articleId);
         
-        // Check if ArticleManager exists
-        if (typeof ArticleManager === 'undefined') {
-            console.error("ArticleManager is not defined!");
-            return;
-        }
-        
-        // Check if the deleteArticle method exists
-        if (typeof ArticleManager.deleteArticle !== 'function') {
-            console.error("ArticleManager.deleteArticle is not a function!");
-            return;
-        }
-        
-        // Log articles before deletion
-        const beforeArticles = ArticleManager.getAllArticles();
-        console.log("Articles before deletion:", beforeArticles);
-        
         try {
-            // Try to delete the article
+            // Delete the article
             ArticleManager.deleteArticle(articleId);
-            console.log("Delete function called successfully");
+            console.log("Article deleted successfully");
             
-            // Check if article was actually deleted
-            const afterArticles = ArticleManager.getAllArticles();
-            console.log("Articles after deletion:", afterArticles);
+            // Show deletion toast
+            showToast('error', 'Article deleted successfully!');
             
-            if (afterArticles.some(article => article.id === articleId)) {
-                console.error("Article still exists after deletion attempt!");
-            } else {
-                console.log("Article successfully deleted");
-                // Only redirect if deletion was successful
+            // Add a small delay before redirecting
+            setTimeout(function() {
                 window.location.href = '../pages/viewArticles.html';
-            }
+            }, 1500);
         } catch (error) {
             console.error("Error deleting article:", error);
+            displayError("Failed to delete the article");
         }
     } else {
         console.log("Deletion cancelled by user");
     }
 });
+
 
 
 // Load article from localStorage

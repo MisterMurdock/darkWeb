@@ -27,20 +27,19 @@ document.addEventListener('DOMContentLoaded', function() {
             const hasImage = article.images && article.images.length > 0;
             
             const articleCard = document.createElement('div');
-            articleCard.className = 'border border-gray-700 bg-gray-800 rounded-lg overflow-hidden shadow-lg';
+            articleCard.className = 'flex flex-col items-center border shadow-sm md:flex-row w-full border-gray-700 bg-gray-800 hover:bg-gray-700 transition duration-200 ease-in-out">';
             articleCard.innerHTML = `
-                <div class="h-full flex flex-col">
-                    ${hasImage ? 
-                        `<div class="h-48 overflow-hidden">
-                            <img src="${article.images[0]}" alt="${article.title}" class="w-full h-full object-cover">
-                        </div>` : 
-                        `<div class="h-48 bg-gray-700 flex items-center justify-center">
-                            <svg class="w-12 h-12 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 8H4m0 4h8m-8 4h8M15.488 8v4L19 8v8"/>
-                            </svg>
-                        </div>`
-                    }
-                    <div class="p-4 flex-grow">
+            ${hasImage ? 
+                `<div class="h-48 overflow-hidden">
+                    <img src="${article.images[0]}" alt="${article.title}" class="w-full h-full object-cover">
+                </div>` : 
+                `<div class="h-48 bg-gray-700 flex items-center justify-center">
+                    <svg class="w-12 h-12 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 8H4m0 4h8m-8 4h8M15.488 8v4L19 8v8"/>
+                    </svg>
+                </div>`
+            }
+                    <div class="p-4 flex-grow hover:bg-gray-700 transition duration-200 ease-in-out">
                         <h5 class="mb-2 text-xl font-bold tracking-tight text-white">${article.title}</h5>
                         <p class="text-sm text-gray-400 mb-1">By ${article.author} • ${article.date}</p>
                         <p class="font-normal text-gray-300 line-clamp-3 mb-4">${article.content.substring(0, 150)}${article.content.length > 150 ? '...' : ''}</p>
@@ -60,12 +59,13 @@ document.addEventListener('DOMContentLoaded', function() {
                                     ${article.likes || 0}
                                 </span>
                             </div>
-                            <a href="fullArticleTemplate.html?id=${article.id}" class="text-blue-500 hover:text-blue-400 text-sm">
+                            <a href="../myObjects/fullArticleTemplate.html?id=${article.id}" class="text-blue-500 hover:text-blue-400 text-sm">
                                 Read more →
                             </a>
                         </div>
                     </div>
                 </div>
+                </a>
             `;
             
             articlesContainer.appendChild(articleCard);

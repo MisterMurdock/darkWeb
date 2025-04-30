@@ -98,30 +98,6 @@
     window.addEventListener('DOMContentLoaded', loadTextContent);
   </script>
 
-  <script>
-    fetch('../myObjects/footer.html')
-      .then(function (response) {
-        return response.text();
-      })
-      .then(function (htmlString) {
-        // Create a temporary container
-        const tempDiv = document.createElement('div');
-        // Set the HTML content
-        tempDiv.innerHTML = htmlString;
-        // Extract just the navigation element
-        const navElement = tempDiv.querySelector('footer');
-        // Insert the navigation into your container
-        if (navElement) {
-          document.getElementById('footer-container').innerHTML = navElement.outerHTML;
-        } else {
-          console.error('footer element not found in the loaded HTML');
-        }
-      })
-      .catch(function (error) {
-        console.error('Error loading navigation:', error);
-      });
-  </script>
-
 </body>
 
 </html>

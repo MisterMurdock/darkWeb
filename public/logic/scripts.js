@@ -1,13 +1,11 @@
 
 document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOM fully loaded, initializing functions');
   loadFooter();
   loadNavBar();
 });
 
 
 function loadFooter() {
-  console.log('Script loaded');
     fetch('../myObjects/footer.html')
       .then(function (response) {
         return response.text();
@@ -27,7 +25,6 @@ function loadFooter() {
       });}
 
 function loadNavBar() {
-  console.log('Script loaded');
   fetch('../myObjects/navigation.html')
   .then(response => {
     if (!response.ok) {
@@ -59,41 +56,63 @@ function loadNavBar() {
         // For Flowbite v2.x
         window.flowbite.initFlowbite();
       } else {
-        // For Flowbite v1.x - initialize all component types
+        // initialize all component types
         if (window.flowbite.initDrawers) window.flowbite.initDrawers();
         if (window.flowbite.initDropdowns) window.flowbite.initDropdowns();
         if (window.flowbite.initCollapses) window.flowbite.initCollapses();
-        // Add other component initializers as needed
+  
       }
     }
     
-    // Add manual event listeners for all interactive elements
-    
-    // 1. Handle drawer toggle buttons
-    document.querySelectorAll('[data-drawer-toggle]').forEach(button => {
-      const targetId = button.getAttribute('data-drawer-target');
-      const target = document.getElementById(targetId);
+// Handle drawer toggle buttons
+document.querySelectorAll('[data-drawer-toggle]').forEach(button => {
+  const targetId = button.getAttribute('data-drawer-target');
+  const target = document.getElementById(targetId);
+  button.addEventListener('click', () => {
+    target.classList.toggle('-translate-x-full');
+    // overlay.classList.toggle('hidden');
+  });
+  // if (target) {
+  //   // Create overlay element if it doesn't exist
+  //   let overlay = document.getElementById('sidebar-overlay');
+  //   if (!overlay) {
+  //     overlay = document.createElement('div');
+  //     overlay.id = 'sidebar-overlay';
+  //     overlay.className = 'fixed inset-0 bg-gray-900 bg-opacity-50 z-30 hidden';
+  //     document.body.appendChild(overlay);
       
-      if (target) {
-        button.addEventListener('click', () => {
-          target.classList.toggle('-translate-x-full');
-        });
+  //     // Add event listener to overlay to close sidebar when clicked
+  //     overlay.addEventListener('click', () => {
+  //       target.classList.add('-translate-x-full');
+  //       overlay.classList.add('hidden');
+  //     });
+  //   }
+    
+  //   button.addEventListener('click', () => {
+  //     target.classList.toggle('-translate-x-full');
+  //     overlay.classList.toggle('hidden');
+  //   });
+  // }
+});
+    
+  // Handle drawer hide/close buttons
+document.querySelectorAll('[data-drawer-hide]').forEach(button => {
+  const targetId = button.getAttribute('data-drawer-hide');
+  const target = document.getElementById(targetId);
+  
+  if (target) {
+    button.addEventListener('click', () => {
+      target.classList.add('-translate-x-full');
+      // Also hide the overlay when closing the sidebar
+      const overlay = document.getElementById('sidebar-overlay');
+      if (overlay) {
+        overlay.classList.add('hidden');
       }
     });
+  }
+});
     
-    // 2. Handle drawer hide/close buttons
-    document.querySelectorAll('[data-drawer-hide]').forEach(button => {
-      const targetId = button.getAttribute('data-drawer-hide');
-      const target = document.getElementById(targetId);
-      
-      if (target) {
-        button.addEventListener('click', () => {
-          target.classList.add('-translate-x-full');
-        });
-      }
-    });
-    
-    // 3. Handle dropdown toggle buttons
+    // Handle dropdown toggle buttons
     document.querySelectorAll('[data-dropdown-toggle]').forEach(button => {
       const targetId = button.getAttribute('data-dropdown-toggle');
       const target = document.getElementById(targetId);
@@ -105,7 +124,7 @@ function loadNavBar() {
       }
     });
     
-    // 4. Handle collapse toggle buttons (for mobile menu)
+    // Handle collapse toggle buttons (for mobile menu)
     document.querySelectorAll('[data-collapse-toggle]').forEach(button => {
       const targetId = button.getAttribute('data-collapse-toggle');
       const target = document.getElementById(targetId);
@@ -121,7 +140,7 @@ function loadNavBar() {
       }
     });
     
-    // Consider adding a small delay to ensure DOM is fully processed
+
     setTimeout(() => {
       if (window.flowbite && window.flowbite.initFlowbite) {
         window.flowbite.initFlowbite();
@@ -129,6 +148,21 @@ function loadNavBar() {
     }, 100);
   })
   .catch(error => console.error('Navigation loading error:', error));
+
+  // Add CSS for sidebar scrolling
+const styleElement = document.createElement('style');
+styleElement.textContent = `
+  #default-sidebar {
+    overflow-y: auto;
+    max-height: 100vh;
+  }
+  
+  body.sidebar-open {
+    overflow: hidden;
+  }
+`;
+document.head.appendChild(styleElement);
+
 }
 
       

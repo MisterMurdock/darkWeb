@@ -6,11 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Darkweb</title>
   <link rel="stylesheet" href="..\style.css">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js" defer> </script>
   <script src="../logic/scripts.js" defer></script>
   <script src="../logic/articleManager.js" defer></script>
-  <script src="../logic/viewArticles.js" defer></script>
+  <script src="../logic/viewArticleCards-R.js" defer></script>
   <script src="../logic/viewArticleDetailed.js" defer></script>
   <style>
     body {
@@ -21,13 +19,10 @@
 
 <body class="bg-black">
 
-
-  <div id="navigation-container"></div>
-
   <!-- Main container with sidebar, navbar and content -->
   <div class="min-h-screen bg-gray-900">
-    
-  <div class="relative">
+
+    <div id="navigation-container"></div>
 
     <!-- Main content area -->
     <div class="mt-16">
@@ -123,7 +118,7 @@
             </div>
 
             <!-- Articles container -->
-            <div id="articles-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div id="articles-container" ">
               <!-- Articles will be displayed here -->
               <div class="flex justify-center items-center col-span-full">
                 <p class="text-gray-400 text-lg">Loading articles...</p>
@@ -131,17 +126,17 @@
             </div>
             
             <div class="mt-8 flex justify-center">
-              <a href="../pages/createArticle.html" class="text-white bg-gray-900 hover:bg-gray-700 transition duration-200 ease-in-out border border-gray-400 focus:outline-none font-medium rounded-lg text-sm px-6 py-3 text-center">
+              <a href="../pages/createArticle.html" class="text-white bg-gray-900 hover:bg-gray-700 transition duration-200 ease-in-out border border-gray-400 focus:outline-none font-medium text-sm px-6 py-3 text-center">
                 Create New Article
               </a>
             </div>
           </div>
         </div>
 
-        <din id="footer-container"></din>
+        
       </div>
     </div>
-  </div>
+    <div id="footer-container"></div>
   </div>
 </body>
 
