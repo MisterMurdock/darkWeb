@@ -1,7 +1,10 @@
-// viewArticles.js - Updated version with alternating layout and larger images
+// viewArticleCards.js - Updated version with asynchronous loading and initialization
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
     const articlesContainer = document.getElementById('articles-container');
+    
+    // Initialize articles and ensure default articles are created if needed
+    await initializeArticles();
     
     // Load and display all articles
     function loadArticles() {
@@ -10,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Clear the container
         articlesContainer.innerHTML = '';
         
-        if (articles.length === 0) {
+        if (!articles || articles.length === 0) {
             articlesContainer.innerHTML = `
                 <div class="flex justify-center items-center col-span-full py-12">
                     <p class="text-gray-400 text-lg">No articles found. Be the first to create one!</p>
@@ -36,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <section class="flex flex-col justify-between p-4 leading-normal w-full md:w-2/3">
                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">${article.title}</h5>
                     <p class="text-sm text-gray-400 mb-1">By ${article.author} • ${article.date}</p>
-                    <p class="mb-3 font-normal text-gray-400">${article.content.substring(0, 200)}${article.content.length > 200 ? '...' : ''}</p>
+                    <p class="mb-3 font-normal text-gray-400">${article.content.substring(0, 60)}${article.content.length > 60 ? '...' : ''}</p>
                     <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-4">
                             <span class="flex items-center text-sm text-gray-400">
@@ -85,7 +88,50 @@ document.addEventListener('DOMContentLoaded', function() {
             return [];
         }
     }
-    
-    // Load articles when page loads
-    loadArticles();
+
+    // Initialize articles and make sure default articles exist
+    async function initializeArticles() {
+        try {
+            // Check if ArticleManager exists
+            if (typeof ArticleManager !== 'undefined') {
+                console.log("Using ArticleManager to initialize articles");
+                // Create default articles if none exist
+                await ArticleManager.createDefaultArticlesIfNeeded();
+            } else {
+                console.warn("ArticleManager not found, checking for articles directly");
+                // Check if articles already exist in localStorage
+                const articles = getArticlesFromStorage();
+                
+                // If no articles and no ArticleManager, create basic default articles
+                if (articles.length === 0) {
+                    console.log("No ArticleManager found and no articles exist. Creating basic default article");
+                    const defaultArticle = {
+                        id: 'default-' + Date.now().toString(),
+                        title: 'Welcome to the DarkWeb News',
+                        content: 'This is a default article created because no articles were found.',
+                        author: 'System',
+                        date: new Date().toLocaleDateString(),
+                        comments: [],
+                        images: [],
+                        likes: 0,
+                        dislikes: 0
+                    };
+                    
+                    localStorage.setItem('darkweb_articles', JSON.stringify([defaultArticle]));
+                }
+            }
+            
+            // Load articles into the view
+            loadArticles();
+            
+        } catch (error) {
+            console.error("Error initializing articles:", error);
+            // Show error message in the articles container
+            articlesContainer.innerHTML = `
+                <div class="flex justify-center items-center col-span-full py-12">
+                    <p class="text-red-500 text-lg">Error loading articles. Please refresh the page.</p>
+                </div>
+            `;
+        }
+    }
 });

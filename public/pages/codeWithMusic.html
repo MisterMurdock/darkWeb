@@ -4,11 +4,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Darkweb</title>
+  <title>Code with music</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js" defer> </script>
   <script src="../logic/scripts.js" defer></script>
+  <script src="../logic/articleManager.js" defer></script>
   <style>
     body {
       padding-top: 20px;
@@ -37,12 +38,13 @@
 
         <div class="flex flex-col md:flex-row">
           <!-- Image in the top left corner -->
-          <img class="object-cover w-full md:w-2/5 md:h-auto" src="../storyImgs/coding-notes.jpg" alt="music">
+          <img class="object-cover w-full md:w-2/5 md:h-auto" src="../storyImgs/coding-notes.jpg" alt="music" id="articleImg">
 
           <!-- Text content that flows next to the image and continues underneath -->
           <div class="p-4 leading-normal">
-            <h5 class="w-full mb-2 text-2xl font-bold tracking-tight text-white">Coding while listening to music
+            <h5 class="w-full mb-2 text-2xl font-bold tracking-tight text-white"id="articleTitle">Coding while listening to music
               increases productivity</h5>
+              
 
             <p class="font-normal text-gray-400" id="textContent">
               <!-- Your text will be loaded here via JavaScript -->
@@ -51,10 +53,13 @@
           </div>
         </div>
       </div>
+      
 
       <din id="footer-container"></din>
     </div>
   </div>
+
+
 
 <!--Load text script-->
   <script>

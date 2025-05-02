@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Save article
             const articleId = ArticleManager.saveArticle(article);
 
-            // Show success toast instead of alert
+            // Show success toast
             if (typeof showToast === 'function') {
                 showToast('success', 'Article successfully created!');
             } else {

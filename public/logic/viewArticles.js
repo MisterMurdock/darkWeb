@@ -1,16 +1,55 @@
-// viewArticles.js - Updated version
+// viewArticles.js - Display articles
 
+console.log("viewArticles.js executing");
+
+// Wait for DOMContentLoaded to ensure the container exists
 document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM loaded in viewArticles.js");
+    
     const articlesContainer = document.getElementById('articles-container');
+    
+    // Check if the container exists
+    if (!articlesContainer) {
+        console.error("ERROR: articles-container element not found on the page!");
+        return;
+    }
+    
+    console.log("Found articles-container:", articlesContainer);
     
     // Load and display all articles
     function loadArticles() {
-        const articles = getArticlesFromStorage();
+        console.log("Loading articles...");
+        
+        // Make sure ArticleManager is available
+        if (typeof ArticleManager === 'undefined') {
+            console.error("ERROR: ArticleManager not found. Check that articleManager.js is loaded before this script.");
+            articlesContainer.innerHTML = '<div class="p-4 text-red-500">Error: Article system not initialized properly. See console for details.</div>';
+            return;
+        }
+        
+        // Get all articles
+        const articles = ArticleManager.getArticles();
+        console.log("Articles loaded:", articles);
         
         // Clear the container
         articlesContainer.innerHTML = '';
         
-        if (articles.length === 0) {
+        if (!articles || articles.length === 0) {
+            console.log("No articles found, showing empty state");
+            
+            // Try to create default articles
+            if (ArticleManager.createDefaultArticlesIfNeeded()) {
+                // If default articles were created, reload the articles list
+                const newArticles = ArticleManager.getArticles();
+                console.log("Created default articles, now we have:", newArticles);
+                
+                if (newArticles && newArticles.length > 0) {
+                    displayArticles(newArticles);
+                    return;
+                }
+            }
+            
+            // If we still have no articles, show the empty state
             articlesContainer.innerHTML = `
                 <div class="flex justify-center items-center col-span-full py-12">
                     <p class="text-gray-400 text-lg">No articles found. Be the first to create one!</p>
@@ -19,16 +58,27 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
+        // Display the articles
+        displayArticles(articles);
+    }
+    
+    // Function to display articles
+    function displayArticles(articles) {
+        console.log(`Displaying ${articles.length} articles`);
+        
         // Sort articles by date (newest first)
         articles.sort((a, b) => new Date(b.date) - new Date(a.date));
         
         // Generate article cards
         articles.forEach(article => {
+            console.log("Creating card for article:", article.title);
+            
             const hasImage = article.images && article.images.length > 0;
             
             const articleCard = document.createElement('div');
             articleCard.className = 'border border-gray-700 bg-gray-800 rounded-lg overflow-hidden shadow-lg';
             articleCard.innerHTML = `
+            <a href="../myObjects/fullArticleTemplate.html?id=${article.id}">
                 <div class="h-full flex flex-col">
                     ${hasImage ? 
                         `<div class="h-48 overflow-hidden">
@@ -40,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             </svg>
                         </div>`
                     }
-                    <div class="p-4 flex-grow">
+                    <div class="p-4 flex-grow hover:bg-gray-700 transition duration-200 ease-in-out">
                         <h5 class="mb-2 text-xl font-bold tracking-tight text-white">${article.title}</h5>
                         <p class="text-sm text-gray-400 mb-1">By ${article.author} • ${article.date}</p>
                         <p class="font-normal text-gray-300 line-clamp-3 mb-4">${article.content.substring(0, 150)}${article.content.length > 150 ? '...' : ''}</p>
@@ -66,23 +116,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                     </div>
                 </div>
+                </a>
             `;
             
             articlesContainer.appendChild(articleCard);
         });
+        
+        console.log(`Successfully displayed ${articles.length} articles`);
     }
     
-    // Helper function to get articles from localStorage
-    function getArticlesFromStorage() {
-        try {
-            const articlesJSON = localStorage.getItem('darkweb_articles');
-            return articlesJSON ? JSON.parse(articlesJSON) : [];
-        } catch (error) {
-            console.error("Error loading articles:", error);
-            return [];
-        }
-    }
-    
-    // Load articles when page loads
+    // Start loading articles
+    console.log("Starting to load articles...");
     loadArticles();
 });
