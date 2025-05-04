@@ -1,6 +1,5 @@
-// createArticle.js - Updated with default image and toast notification
+// createArticle.js - Using a more direct approach for default image
 
-// Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     // Get form elements
     const titleInput = document.getElementById('title-input');
@@ -9,7 +8,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const imageInput = document.getElementById('img-input');
     const uploadBtn = document.getElementById('uploadBtn');
 
-    const DEFAULT_IMAGE = '../public/storyImgs/default-img.jpg';
+    // Define default image path
+    const DEFAULT_IMAGE = '../storyImgs/default-img.jpg';
+    
     // Add event listener to the upload button
     uploadBtn.addEventListener('click', async function() {
         // Validate inputs
@@ -27,28 +28,49 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         try {
-            // Process image if provided, otherwise use default
-            let imageSrc = DEFAULT_IMAGE; // Start with default image
+            // Initialize image array for the article
+            let imageArray = [];
             
+            // Process image if provided
             if (imageInput.files && imageInput.files[0]) {
                 try {
-                    imageSrc = await handleImageFile(imageInput.files[0]);
+                    const processedImage = await handleImageFile(imageInput.files[0]);
+                    if (processedImage) {
+                        imageArray.push(processedImage);
+                        console.log('User image added to array');
+                    }
                 } catch (imgError) {
-                    console.warn('Error processing image, using default:', imgError);
-                    // Keep using default image if there's an error
+                    console.warn('Error processing uploaded image:', imgError);
                 }
             }
-
-            // Create new article
+            
+            // Create article with whatever images we have (might be empty array)
             const article = new MyArticle(
                 titleInput.value.trim(),
                 articleTextArea.value.trim(),
-                authorInput.value.trim(),
-                imageSrc
+                authorInput.value.trim()
             );
+            
+            // Check if image array is empty and add default if needed
+            if (article.images.length === 0) {
+                console.log('No images in article, adding default image');
+                article.addImage(DEFAULT_IMAGE);
+                console.log('Default image added:', DEFAULT_IMAGE);
+            }
+            
+            // Set the date
+            article.date = new Date().toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            
+            // Debug: Log the article before saving
+            console.log('Article before saving:', article.getAllValues());
 
             // Save article
             const articleId = ArticleManager.saveArticle(article);
+            console.log('Article saved with ID:', articleId);
 
             // Show success toast
             if (typeof showToast === 'function') {
@@ -75,18 +97,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Helper function for handling image files (if not already defined elsewhere)
-    // This is a placeholder - use your actual image handling function
+    // Helper function for handling image files
     async function handleImageFile(file) {
         return new Promise((resolve, reject) => {
+            if (!file) {
+                reject(new Error('No file provided'));
+                return;
+            }
+            
             const reader = new FileReader();
             
             reader.onload = function(e) {
-                resolve(e.target.result); // This will be a data URL like "data:image/jpeg;base64,..."
+                if (e.target && e.target.result) {
+                    resolve(e.target.result); // This will be a data URL like "data:image/jpeg;base64,..."
+                } else {
+                    reject(new Error('Failed to read file data'));
+                }
             };
             
             reader.onerror = function(e) {
-                reject(new Error('Error reading image file'));
+                reject(new Error('Error reading image file: ' + (e.message || 'Unknown error')));
             };
             
             reader.readAsDataURL(file);

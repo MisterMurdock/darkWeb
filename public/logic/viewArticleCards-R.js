@@ -64,9 +64,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             const imageSection = hasImage ? 
                 `<img class="object-cover w-full h-96 md:h-auto md:w-1/3" src="${article.images[0]}" alt="${article.title}">` : 
                 `<div class="w-full h-96 md:h-auto md:w-1/3 bg-gray-700 flex items-center justify-center">
-                    <svg class="w-12 h-12 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.5 8H4m0 4h8m-8 4h8M15.488 8v4L19 8v8"/>
-                    </svg>
+                    <img src="../storyImgs/default-img.jpg" alt="${article.title}" class="w-full h-full object-cover">
                 </div>`;
             
             // Alternate image position based on index (even/odd)

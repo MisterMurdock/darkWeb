@@ -115,7 +115,7 @@ function displayArticle(article) {
             imageElement.alt = article.title;
         } else {
             // Default image if none provided
-            imageElement.src = "../webimgs/default-article-image.png";
+            imageElement.src = "../storyImgs/default-img.jpg";
             imageElement.alt = "Default image";
         }
     }

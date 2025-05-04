@@ -3,14 +3,14 @@
 // Import necessary modules if using Node.js
 // For browser-based implementation, we'll define the class directly
 class MyArticle {
-    constructor(title, content, author, images = []) {
+    constructor(title, content, author, images = [], date = null) {
         this.title = title;
         this.content = content;
         this.author = author;
-        this.date = new Date().toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
+        this.date = date || new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
         });
         this.comments = [];
         this.images = Array.isArray(images) ? images : (images ? [images] : []);
@@ -41,7 +41,7 @@ class MyArticle {
     getImages() {
         return this.images;
     }
-
+    
     getAllValues() {
         return {
             title: this.title,
@@ -171,7 +171,7 @@ const ArticleManager = {
             const defaultArticles = [];
             
             // Define a function to create and save a default article with a guaranteed unique ID
-            const createAndAddDefaultArticle = async (title, contentPath, fallbackContent, author, imagePath) => {
+            const createAndAddDefaultArticle = async (title, contentPath, fallbackContent, author, imagePath, date) => {
                 // Generate truly unique ID by generating a UUID-like string
                 const uniqueId = 'default-' + Math.random().toString(36).substring(2, 15) + 
                                  Math.random().toString(36).substring(2, 15) + '-' + Date.now().toString();
@@ -193,11 +193,11 @@ const ArticleManager = {
                     title: title,
                     content: content,
                     author: author,
-                    date: new Date().toLocaleDateString('en-US', { 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
-                    }),
+                    date: date instanceof Date ? date.toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    }) : date, // Format the date if it's a Date object
                     comments: [],
                     images: imagePath ? [imagePath] : [],
                     likes: 0,
@@ -216,7 +216,8 @@ const ArticleManager = {
                 "../txtFiles/codingPoetry.txt",
                 "Many developers find that their most productive coding sessions happen late at night when distractions are minimal and creativity peaks. The quiet hours of the night can provide the perfect environment for deep focus.", 
                 "CyberPhantom", 
-                "../storyImgs/coding-vibrant.png"
+                "../storyImgs/coding-vibrant.png",
+                new Date(2023, 6, 20)
             );
 
 
@@ -225,7 +226,8 @@ const ArticleManager = {
                 "../txtFiles/hacker.txt",
                 "This is a sample article content discussing ethical considerations in the world of hacking and cybersecurity. The article explores the moral implications of different hacking approaches and their potential impact on society.", 
                 "Darkweb", 
-                "../storyImgs/hacker-break.png"
+                "../storyImgs/hacker-break.png",
+                "Dec 02, 2023"
             );
 
             await createAndAddDefaultArticle(
@@ -233,7 +235,8 @@ const ArticleManager = {
                 "../txtFiles/perfectSetup.txt",
                 "The age-old debate: How many monitors do you need to become a true productivity powerhouse? The answer isn't as binary as it might seem.", 
                 "Darkweb", 
-                "../storyImgs/screens.jpg"
+                "../storyImgs/screens.jpg",
+                "Jan 12, 2025"
             );
             
             await createAndAddDefaultArticle(
@@ -241,7 +244,8 @@ const ArticleManager = {
                 "../txtFiles/goCrazy.txt",
                 "Writing HTML can be a challenging but rewarding experience. As you dive deeper into web development, you'll discover both the frustrations and joys of creating something from nothing but text and tags.", 
                 "CyberPhantom", 
-                "../storyImgs/html.jpg"
+                "../storyImgs/html.jpg",
+                "Feb 14, 2024"
             );
             
             await createAndAddDefaultArticle(
@@ -249,15 +253,17 @@ const ArticleManager = {
                 "../txtFiles/codeWithMusic.txt",
                 "Studies have shown that listening to music while coding can increase focus and productivity. The right playlist can help developers enter a flow state where time seems to disappear and code flows naturally.", 
                 "PrivacyGuardian", 
-                "../storyImgs/coding-notes.jpg"
+                "../storyImgs/coding-notes.jpg",
+                "Mar 15, 2023"
             );
             
             await createAndAddDefaultArticle(
                 "The Reality Rewrite: How Java Reshapes Our Understanding", 
-                "../txtFiles/codeLife.txt",
+                "../txtFiles/reality.txt",
                 "Java has been reshaping our understanding of software development for over two decades. Its 'write once, run anywhere' philosophy continues to influence modern programming practices.", 
                 "CyberPhantom", 
-                "../storyImgs/coding-next-gen.jpeg"
+                "../storyImgs/coding-next-gen.jpeg",
+                "Apr 30, 2022"
             );
 
             await createAndAddDefaultArticle(
@@ -265,7 +271,8 @@ const ArticleManager = {
                 "../txtFiles/devil.txt",
                 'They dangle promises, seductive whispers of shortcuts and ease. "Just this one fix," they hiss.', 
                 "Devon Ilson", 
-                "../storyImgs/handshake.jpg"
+                "../storyImgs/handshake.jpg",
+                "May 10, 2023"
             );
             
             await createAndAddDefaultArticle(
@@ -273,15 +280,16 @@ const ArticleManager = {
                 "../txtFiles/darkMode.txt",
                 "Dark mode has become the preferred choice for many developers and users alike. It reduces eye strain, saves battery life on OLED screens, and provides a sleek, modern aesthetic.", 
                 "CyberPhantom", 
-                "../storyImgs/darkMode.png"
-            );
+                "../storyImgs/darkMode.png",
+                "Jun 20, 2023");
 
             await createAndAddDefaultArticle(
                 "The art of naming variables", 
-                "../txtFiles/darkMode.txt",
+                "../txtFiles/naming.txt",
                 "Let's face it, coding is like a complex game of Jenga.  One wrong move can send your entire structure tumbling down.", 
                 "DarkWeb", 
-                "../storyImgs/coding-text.jpg"
+                "../storyImgs/coding-text.jpg",
+                "Jul 25, 2023"
             );
             
             
