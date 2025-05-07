@@ -1,7 +1,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
-  loadFooter();
   loadNavBar();
+  loadFooter();
 });
 
 
@@ -25,6 +25,8 @@ function loadFooter() {
       });}
 
 function loadNavBar() {
+  // This will remove any flowbite-related event listeners and let us handle them manually
+window.flowbiteListenersRemoved = false;
   fetch('../myObjects/navigation.html')
   .then(response => {
     if (!response.ok) {
@@ -33,6 +35,15 @@ function loadNavBar() {
     return response.text();
   })
   .then(html => {
+    if (!window.flowbiteListenersRemoved) {
+      // Temporarily disable Flowbite's event handling
+      if (window.flowbite) {
+        const originalInit = window.flowbite.initDrawers;
+        window.flowbite.initDrawers = function() {
+          // Do nothing - we'll handle drawer behavior ourselves
+        };
+        window.flowbiteListenersRemoved = true;
+      }
     // Insert the HTML
     document.getElementById('navigation-container').innerHTML = html;
     
@@ -63,8 +74,30 @@ function loadNavBar() {
   
       }
     }
+     // Add our custom toggle handler that will override flowbite's
+  document.addEventListener('click', function(e) {
+    const toggleButton = e.target.closest('[data-drawer-toggle="default-sidebar"]');
+    if (toggleButton) {
+      e.preventDefault();
+      e.stopPropagation();
+      
+      // Get the sidebar element
+      const sidebar = document.getElementById('default-sidebar');
+      
+      // Remove any existing overlays
+      document.querySelectorAll('.bg-gray-900.bg-opacity-50').forEach(el => el.remove());
+      
+      // Toggle sidebar
+      if (sidebar) {
+        sidebar.classList.toggle('-translate-x-full');
+      }
+      
+      return false;
+    }
+  }, true);
+}
     
-// Handle drawer toggle buttons
+//Handle drawer toggle buttons
 document.querySelectorAll('[data-drawer-toggle]').forEach(button => {
   const targetId = button.getAttribute('data-drawer-target');
   const target = document.getElementById(targetId);

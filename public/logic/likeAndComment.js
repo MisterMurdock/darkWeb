@@ -1,24 +1,24 @@
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('DOM fully loaded, initializing functions');
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("DOM fully loaded, initializing functions");
   loadLikes();
   loadComment();
 });
 
 // Set up likes and dislikes functionality
 function setupLikesFunctionality(articleId) {
-    const likesContainer = document.getElementById('likes-container');
-    if (!likesContainer) return;
-    
-    // Get article data
-    const articlesJSON = localStorage.getItem('darkweb_articles');
-    if (!articlesJSON) return;
-    
-    const articles = JSON.parse(articlesJSON);
-    const article = articles.find(a => a.id === articleId);
-    if (!article) return;
-    
-    // Create likes/dislikes UI
-    likesContainer.innerHTML = `
+  const likesContainer = document.getElementById("likes-container");
+  if (!likesContainer) return;
+
+  // Get article data
+  const articlesJSON = localStorage.getItem("darkweb_articles");
+  if (!articlesJSON) return;
+
+  const articles = JSON.parse(articlesJSON);
+  const article = articles.find((a) => a.id === articleId);
+  if (!article) return;
+
+  // Create likes/dislikes UI
+  likesContainer.innerHTML = `
         <div class="mt-6 flex items-center space-x-4 px-4">
             <button id="like-button" class="flex items-center space-x-2 text-gray-400 hover:text-green-500">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -34,72 +34,83 @@ function setupLikesFunctionality(articleId) {
             </button>
         </div>
     `;
-    
-    // Add event listeners
-    document.getElementById('like-button').addEventListener('click', function() {
-        updateLikes(articleId, 'like');
-    });
-    
-    document.getElementById('dislike-button').addEventListener('click', function() {
-        updateLikes(articleId, 'dislike');
+
+  // Add event listeners
+  document.getElementById("like-button").addEventListener("click", function () {
+    updateLikes(articleId, "like");
+  });
+
+  document
+    .getElementById("dislike-button")
+    .addEventListener("click", function () {
+      updateLikes(articleId, "dislike");
     });
 }
 
 // Update likes or dislikes
 function updateLikes(articleId, action) {
-    // Get article data
-    const articlesJSON = localStorage.getItem('darkweb_articles');
-    if (!articlesJSON) return;
-    
-    const articles = JSON.parse(articlesJSON);
-    const articleIndex = articles.findIndex(a => a.id === articleId);
-    if (articleIndex === -1) return;
-    
-    // Update likes/dislikes
-    if (action === 'like') {
-        articles[articleIndex].likes = (articles[articleIndex].likes || 0) + 1;
-        document.getElementById('likes-count').textContent = articles[articleIndex].likes;
-    } else {
-        articles[articleIndex].dislikes = (articles[articleIndex].dislikes || 0) + 1;
-        document.getElementById('dislikes-count').textContent = articles[articleIndex].dislikes;
-    }
-    
-    // Save updated data
-    localStorage.setItem('darkweb_articles', JSON.stringify(articles));
+  // Get article data
+  const articlesJSON = localStorage.getItem("darkweb_articles");
+  if (!articlesJSON) return;
+
+  const articles = JSON.parse(articlesJSON);
+  const articleIndex = articles.findIndex((a) => a.id === articleId);
+  if (articleIndex === -1) return;
+
+  // Update likes/dislikes
+  if (action === "like") {
+    articles[articleIndex].likes = (articles[articleIndex].likes || 0) + 1;
+    document.getElementById("likes-count").textContent =
+      articles[articleIndex].likes;
+  } else {
+    articles[articleIndex].dislikes =
+      (articles[articleIndex].dislikes || 0) + 1;
+    document.getElementById("dislikes-count").textContent =
+      articles[articleIndex].dislikes;
+  }
+
+  // Save updated data
+  localStorage.setItem("darkweb_articles", JSON.stringify(articles));
 }
 
 // Set up comments functionality
 function setupCommentsFunctionality(articleId) {
-    const commentsContainer = document.getElementById('comments-container');
-    if (!commentsContainer) return;
-    
-    // Get article data
-    const articlesJSON = localStorage.getItem('darkweb_articles');
-    if (!articlesJSON) return;
-    
-    const articles = JSON.parse(articlesJSON);
-    const article = articles.find(a => a.id === articleId);
-    if (!article) return;
+  const commentsContainer = document.getElementById("comments-container");
+  if (!commentsContainer) return;
 
-    // Render comments list
-function renderComments(comments) {
+  // Get article data
+  const articlesJSON = localStorage.getItem("darkweb_articles");
+  if (!articlesJSON) return;
+
+  const articles = JSON.parse(articlesJSON);
+  const article = articles.find((a) => a.id === articleId);
+  if (!article) return;
+
+  // Render comments list
+  function renderComments(comments) {
     if (!comments.length) {
-        return '<p class="text-gray-400">No comments yet. Be the first to comment!</p>';
+      return '<p class="text-gray-400">No comments yet. Be the first to comment!</p>';
     }
-    
-    return comments.map((comment, index) => `
+
+    return comments
+      .map(
+        (comment, index) => `
         <div class="p-3 bg-gray-700 rounded-lg" id="comment-${index}">
             <p class="text-white">${comment}</p>
             <p class="text-xs text-gray-400 mt-1">Anonymous • ${new Date().toLocaleDateString()}</p>
         </div>
-    `).join('');
-}
-    
-    // Create comments UI
-    commentsContainer.innerHTML = `
+    `
+      )
+      .join("");
+  }
+
+  // Create comments UI
+  commentsContainer.innerHTML = `
     
         <div class="mt-6 px-4 py-2">
-            <h3 class="text-xl font-bold text-white mb-4">Comments (${article.comments?.length || 0})</h3>
+            <h3 class="text-xl font-bold text-white mb-4">Comments (${
+              article.comments?.length || 0
+            })</h3>
             <div id="comments-list" class="space-y-4 mb-6">
                 ${renderComments(article.comments || [])}
             </div>
@@ -114,46 +125,48 @@ function renderComments(comments) {
             
         </div>
     `;
-    
-    // Add event listener for comment button
-    document.getElementById('add-comment-btn').addEventListener('click', function() {
-        const commentText = document.getElementById('comment-text').value.trim();
-        if (commentText) {
-            addComment(articleId, commentText);
-        }
+
+  // Add event listener for comment button
+  document
+    .getElementById("add-comment-btn")
+    .addEventListener("click", function () {
+      const commentText = document.getElementById("comment-text").value.trim();
+      if (commentText) {
+        addComment(articleId, commentText);
+      }
     });
 }
 
-
-
 // Add a new comment
 function addComment(articleId, commentText) {
-    // Get article data
-    const articlesJSON = localStorage.getItem('darkweb_articles');
-    if (!articlesJSON) return;
-    
-    const articles = JSON.parse(articlesJSON);
-    const articleIndex = articles.findIndex(a => a.id === articleId);
-    if (articleIndex === -1) return;
-    
-    // Initialize comments array if it doesn't exist
-    if (!articles[articleIndex].comments) {
-        articles[articleIndex].comments = [];
-    }
-    
-    // Add the comment
-    articles[articleIndex].comments.push(commentText);
-    
-    // Save updated data
-    localStorage.setItem('darkweb_articles', JSON.stringify(articles));
-    
-    // Update the UI
-    document.getElementById('comments-list').innerHTML = renderComments(articles[articleIndex].comments);
-    document.getElementById('comment-text').value = '';
-    
-    // Update comment count in title
-    const commentsTitle = document.querySelector('#comments-container h3');
-    if (commentsTitle) {
-        commentsTitle.textContent = `Comments (${articles[articleIndex].comments.length})`;
-    }
+  // Get article data
+  const articlesJSON = localStorage.getItem("darkweb_articles");
+  if (!articlesJSON) return;
+
+  const articles = JSON.parse(articlesJSON);
+  const articleIndex = articles.findIndex((a) => a.id === articleId);
+  if (articleIndex === -1) return;
+
+  // Initialize comments array if it doesn't exist
+  if (!articles[articleIndex].comments) {
+    articles[articleIndex].comments = [];
+  }
+
+  // Add the comment
+  articles[articleIndex].comments.push(commentText);
+
+  // Save updated data
+  localStorage.setItem("darkweb_articles", JSON.stringify(articles));
+
+  // Update the UI
+  document.getElementById("comments-list").innerHTML = renderComments(
+    articles[articleIndex].comments
+  );
+  document.getElementById("comment-text").value = "";
+
+  // Update comment count in title
+  const commentsTitle = document.querySelector("#comments-container h3");
+  if (commentsTitle) {
+    commentsTitle.textContent = `Comments (${articles[articleIndex].comments.length})`;
+  }
 }
