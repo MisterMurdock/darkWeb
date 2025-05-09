@@ -1,7 +1,4 @@
-// viewArticles.js - Display articles
-
-console.log("viewArticles.js executing");
-
+// For viewing article cards in viewArticles.html, prep for separating default articles from user created ones
 // Wait for DOMContentLoaded to ensure the container exists
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM loaded in viewArticles.js");
@@ -49,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
             
-            // If we still have no articles, show the empty state
+            // If no articles, show the empty state
             articlesContainer.innerHTML = `
                 <div class="flex justify-center items-center col-span-full py-12">
                     <p class="text-gray-400 text-lg">No articles found. Be the first to create one!</p>
@@ -108,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     ${article.likes || 0}
                                 </span>
                             </div>
-                            <a href="fullArticleTemplate.html?id=${article.id}" class="text-blue-500 hover:text-blue-400 text-sm">
+                            <a href="../myObjects/fullArticleTemplate.html?id=${article.id}" class="text-blue-500 hover:text-blue-400 text-sm">
                                 Read more →
                             </a>
                         </div>

@@ -1,7 +1,3 @@
-// articleManager.js - Save this file in your logic folder
-
-// Import necessary modules if using Node.js
-// For browser-based implementation, we'll define the class directly
 class MyArticle {
   constructor(title, content, author, images = [], date = null) {
     this.title = title;
@@ -88,7 +84,7 @@ const ArticleManager = {
     this.init();
     const articles = this.getAllArticles();
 
-    // Generate a simple ID for the article
+    // Generate a ID for the article
     const articleWithId = {
       id: Date.now().toString(),
       ...article.getAllValues(),
@@ -111,7 +107,7 @@ const ArticleManager = {
     return articles.find((article) => article.id === id);
   },
 
-  // Update existing article
+  // Update article
   updateArticle(id, updatedData) {
     const articles = this.getAllArticles();
     const index = articles.findIndex((article) => article.id === id);
@@ -172,7 +168,7 @@ const ArticleManager = {
       // Create an array for default articles
       const defaultArticles = [];
 
-      // Define a function to create and save a default article with a guaranteed unique ID
+      // Define a function to create and save a default article with a unique ID
       const createAndAddDefaultArticle = async (
         title,
         contentPath,
@@ -181,7 +177,7 @@ const ArticleManager = {
         imagePath,
         date
       ) => {
-        // Generate truly unique ID by generating a UUID-like string
+        // Generate unique ID by generating a UUID-like string
         const uniqueId =
           "default-" +
           Math.random().toString(36).substring(2, 15) +
@@ -229,14 +225,13 @@ const ArticleManager = {
       };
 
       // Create each default article with unique IDs
-      // Using await to ensure each article gets processed sequentially for unique timestamps
       await createAndAddDefaultArticle(
         "Late night coding sessions recommended",
         "../txtFiles/codingPoetry.txt",
         "Many developers find that their most productive coding sessions happen late at night when distractions are minimal and creativity peaks. The quiet hours of the night can provide the perfect environment for deep focus.",
         "CyberPhantom",
         "../storyImgs/coding-vibrant.png",
-        new Date(2023, 6, 20)
+        new Date(2023, 6, 20) // Example date object or date string input
       );
 
       await createAndAddDefaultArticle(
@@ -245,7 +240,7 @@ const ArticleManager = {
         "This is a sample article content discussing ethical considerations in the world of hacking and cybersecurity. The article explores the moral implications of different hacking approaches and their potential impact on society.",
         "Darkweb",
         "../storyImgs/hacker-break.png",
-        "Dec 02, 2023"
+        "Dec 02, 2023" // Example date object or date string input
       );
 
       await createAndAddDefaultArticle(
@@ -270,7 +265,7 @@ const ArticleManager = {
         "Coding while listening to music increases productivity",
         "../txtFiles/codeWithMusic.txt",
         "Studies have shown that listening to music while coding can increase focus and productivity. The right playlist can help developers enter a flow state where time seems to disappear and code flows naturally.",
-        "PrivacyGuardian",
+        "Common Le Nown",
         "../storyImgs/coding-notes.jpg",
         "Mar 15, 2023"
       );
@@ -288,7 +283,7 @@ const ArticleManager = {
         "Don't Shake Hands With The Devil: A Dev's Plea",
         "../txtFiles/devil.txt",
         'They dangle promises, seductive whispers of shortcuts and ease. "Just this one fix," they hiss.',
-        "Devon Ilson",
+        "Dev Ilson",
         "../storyImgs/handshake.jpg",
         "May 10, 2023"
       );
@@ -297,7 +292,7 @@ const ArticleManager = {
         "Dark Mode: The New Standard Illuminating the Web",
         "../txtFiles/darkMode.txt",
         "Dark mode has become the preferred choice for many developers and users alike. It reduces eye strain, saves battery life on OLED screens, and provides a sleek, modern aesthetic.",
-        "CyberPhantom",
+        "A. Troll",
         "../storyImgs/darkMode.png",
         "Jun 20, 2023"
       );
@@ -315,13 +310,6 @@ const ArticleManager = {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(defaultArticles));
       console.log("Created and saved default articles:", defaultArticles);
 
-      // For debugging - verify data was saved
-      const savedArticles = localStorage.getItem(this.STORAGE_KEY);
-      console.log(
-        "Verification - articles in localStorage:",
-        savedArticles ? JSON.parse(savedArticles) : "None"
-      );
-
       return true;
     }
 
@@ -329,7 +317,7 @@ const ArticleManager = {
   },
 };
 
-// Helper function to load text content from a file
+// Function to load text content from a file
 async function loadTextContent(path) {
   console.log(`Attempting to load text from: ${path}`);
 
@@ -347,7 +335,7 @@ async function loadTextContent(path) {
   } catch (fetchError) {
     console.warn(`Fetch attempt failed: ${fetchError.message}`);
 
-    // If fetch fails, try XMLHttpRequest as a fallback (more compatible)
+    // If fetch fails, try XMLHttpRequest as a fallback
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.open("GET", path, true);
@@ -396,7 +384,6 @@ function handleImageFile(file) {
 }
 
 // Export the classes and functions if using in Node.js environment
-// For browser, these will be available globally
 if (typeof module !== "undefined" && module.exports) {
   module.exports = { MyArticle, ArticleManager, handleImageFile };
 }

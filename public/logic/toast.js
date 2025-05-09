@@ -1,5 +1,3 @@
-// toast.js - Updated version
-
 // Function to show a toast message
 function showToast(type, message, duration = 3000) {
     // Create toast element

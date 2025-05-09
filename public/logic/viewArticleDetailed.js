@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', function() {
     // Get article ID from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
@@ -21,13 +19,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 //delete article when clicking the delete button
-document.getElementById('delete-article-btn').addEventListener('click', function() {
-    console.log("Delete button clicked");
-    
+document.getElementById('delete-article-btn').addEventListener('click', function() {    
     // Get article ID from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const articleId = urlParams.get('id');
-    console.log("Article ID:", articleId);
     
     if (!articleId) {
         console.error("No article ID provided");

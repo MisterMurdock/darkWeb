@@ -1,5 +1,3 @@
-// createArticle.js - Using a more direct approach for default image
-
 document.addEventListener("DOMContentLoaded", function () {
   // Get form elements
   const titleInput = document.getElementById("title-input");
@@ -13,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Add event listener to the upload button
   uploadBtn.addEventListener("click", async function () {
-    // Validate inputs
+
     if (!titleInput.value.trim()) {
       alert("Please enter a title");
       return;
@@ -44,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       }
 
-      // Create article with whatever images we have (might be empty array)
+      // Create a new article instance
       const article = new MyArticle(
         titleInput.value.trim(),
         articleTextArea.value.trim(),
@@ -64,9 +62,6 @@ document.addEventListener("DOMContentLoaded", function () {
         month: "long",
         day: "numeric",
       });
-
-      // Debug: Log the article before saving
-      console.log("Article before saving:", article.getAllValues());
 
       // Save article
       const articleId = ArticleManager.saveArticle(article);
@@ -96,7 +91,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // Helper function for handling image files
+  // Function for handling image files
   async function handleImageFile(file) {
     return new Promise((resolve, reject) => {
       if (!file) {

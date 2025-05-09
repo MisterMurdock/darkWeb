@@ -1,5 +1,3 @@
-console.log("defaultArticle.js executing");
-
 // Check if ArticleManager is available
 if (typeof ArticleManager === "undefined") {
   console.error(
@@ -8,8 +6,6 @@ if (typeof ArticleManager === "undefined") {
 } else {
   console.log("Found ArticleManager, creating default articles if needed");
 
-  // For testing, uncomment the next line to clear existing articles
-  // ArticleManager.clearAllArticles();
 
   // Create default articles if none exist
   const created = ArticleManager.createDefaultArticlesIfNeeded();

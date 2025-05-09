@@ -1,5 +1,3 @@
-// viewArticleCards.js - Updated version with asynchronous loading and initialization
-
 document.addEventListener('DOMContentLoaded', async function() {
     const articlesContainer = document.getElementById('articles-container');
     
