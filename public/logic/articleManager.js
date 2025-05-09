@@ -293,7 +293,7 @@ const ArticleManager = {
         "../txtFiles/darkMode.txt",
         "Dark mode has become the preferred choice for many developers and users alike. It reduces eye strain, saves battery life on OLED screens, and provides a sleek, modern aesthetic.",
         "A. Troll",
-        "../storyImgs/darkMode.png",
+        "../storyImgs/darkmode.png",
         "Jun 20, 2023"
       );
 
