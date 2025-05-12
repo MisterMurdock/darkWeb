@@ -1,66 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Darkweb</title>
+    <link rel="stylesheet" href="..\style.css" />
+    <link rel="tailwindcss" href="https://cdn.tailwindcss.com" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Darkweb</title>
-  <link rel="stylesheet" href="..\style.css">
-  <link rel="tailwindcss" href="https://cdn.tailwindcss.com">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"
+      defer
+    ></script>
+    <script src="../logic/scripts.js" defer></script>
+    <script src="../logic/articleManager.js" defer></script>
+    <script src="../logic/defaultArticles.js" defer></script>
+    <script src="../logic/viewArticleCards-R.js" defer></script>
+  </head>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js" defer></script>
-  <script src="../logic/scripts.js" defer></script>
-  <script src="../logic/articleManager.js" defer></script>
-  <script src="../logic/defaultArticles.js"defer ></script>
-  <script src="../logic/viewArticleCards-R.js" defer></script>
-  <style>
-    body {
-      padding-top: 20px;
-    }
-  </style>
-</head>
-
-<body class="bg-black">
-
-  <!-- Main container with sidebar, navbar and content -->
-  <div class="min-h-screen bg-gray-900">
-
-    <div id="navigation-container"></div>
-
-    <!-- Main content area -->
-    <div class="mt-16">
-      <!-- Additional content -->
-      <div>
-        
-        <div class="relative">
-          <!-- Main content area -->
-          <div class="mt-16">
-            
-
-            <!-- Articles container -->
-            <div id="articles-container">
-              <!-- Articles will be displayed here -->
-              <div class="flex justify-center items-center col-span-full">
-                <p class="text-gray-400 text-lg">Loading articles...</p>
-              </div>
-            </div>
-            
-            <div class="mt-8 flex justify-center">
-              <a href="../pages/createArticle.html" class="text-white bg-gray-900 hover:bg-gray-700 transition duration-200 ease-in-out border border-gray-400 focus:outline-none font-medium text-sm px-6 py-3 text-center">
-                Create New Article
-              </a>
-            </div>
+  <body class="bg-black">
+    <!-- Main container with sidebar, navbar and content -->
+    <div class="min-h-screen bg-gray-900">
+      <div id="navigation-container"></div>
+      <div
+        class="main-content w-full flex flex-col items-center justify-center pt-16"
+      >
+        <!-- Articles container -->
+        <div id="articles-container">
+          <!-- Articles will be displayed here -->
+          <div class="flex justify-center items-center col-span-full">
+            <p class="text-gray-400 text-lg">Loading articles...</p>
           </div>
         </div>
-
-        
       </div>
+
+      <div class="mt-8 flex justify-center">
+        <a
+          href="../pages/createArticle.html"
+          class="text-white bg-gray-900 hover:bg-gray-700 transition duration-200 ease-in-out border border-gray-400 focus:outline-none font-medium text-sm px-6 py-3 text-center"
+        >
+          Create New Article
+        </a>
+      </div>
+      <div id="footer-container"></div>
     </div>
-    <div id="footer-container"></div>
-  </div>
 
-  
-</body>
-
+    <!--script that adds padding the the main content if the screen is small-->
+    <script>
+      function adjustPadding() {
+        const mainContent = document.querySelector(".main-content");
+        const articlesContainer = document.getElementById("articles-container");
+        if (window.innerWidth < 496) {
+          mainContent.style.paddingTop = "8rem";
+          articlesContainer.style.paddingTop = "0px";
+        } else {
+          mainContent.style.paddingTop = "4rem";
+          articlesContainer.style.paddingTop = "20px";
+        }
+      }
+      window.addEventListener("resize", adjustPadding);
+    </script>
+  </body>
 </html>
