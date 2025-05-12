@@ -399,7 +399,7 @@ function removeComment(articleId, commentIndex) {
     if (!confirm('Are you sure you want to delete this comment?')) {
         return;
     }
-    
+    showToast('success', 'Comment deleted successfully!');
     // Get articles from localStorage
     const articlesJSON = localStorage.getItem('darkweb_articles');
     if (!articlesJSON) {
