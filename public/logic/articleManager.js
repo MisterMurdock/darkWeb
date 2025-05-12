@@ -19,6 +19,12 @@ class MyArticle {
   addComment(comment) {
     this.comments.push(comment);
   }
+  removeComment(comment) {
+    const index = this.comments.indexOf(comment);
+    if (index > -1) {
+      this.comments.splice(index, 1);
+    }
+  }
 
   addImage(image) {
     this.images.push(image);

@@ -138,9 +138,6 @@ function displayError(message) {
 
 // Set up likes and dislikes functionality
 function setupLikesFunctionality(articleId) {
-    const likesContainer = document.getElementById('likes-container');
-    if (!likesContainer) return;
-    
     // Get article data
     const articlesJSON = localStorage.getItem('darkweb_articles');
     if (!articlesJSON) return;
@@ -148,6 +145,9 @@ function setupLikesFunctionality(articleId) {
     const articles = JSON.parse(articlesJSON);
     const article = articles.find(a => a.id === articleId);
     if (!article) return;
+
+    const likesContainer = document.getElementById('likes-container');
+    if (!likesContainer) return;
     
     // Create likes/dislikes UI
     likesContainer.innerHTML = `
@@ -200,7 +200,7 @@ function updateLikes(articleId, action) {
     localStorage.setItem('darkweb_articles', JSON.stringify(articles));
 }
 
-// Set up comments functionality
+// Modify setupCommentsFunctionality to include delete buttons and proper event handling
 function setupCommentsFunctionality(articleId) {
     const commentsContainer = document.getElementById('comments-container');
     if (!commentsContainer) return;
@@ -213,27 +213,12 @@ function setupCommentsFunctionality(articleId) {
     const article = articles.find(a => a.id === articleId);
     if (!article) return;
 
-    // Render comments list
-function renderComments(comments) {
-    if (!comments.length) {
-        return '<p class="text-gray-400">No comments yet. Be the first to comment!</p>';
-    }
-    
-    return comments.map((comment, index) => `
-        <div class="p-3 bg-gray-700 rounded-lg" id="comment-${index}">
-            <p class="text-white">${comment}</p>
-            <p class="text-xs text-gray-400 mt-1">Anonymous • ${new Date().toLocaleDateString()}</p>
-        </div>
-    `).join('');
-}
-    
-    // Create comments UI
+    // Create comments UI with dynamic content
     commentsContainer.innerHTML = `
-    
         <div class="mt-6 px-4 py-2">
             <h3 class="text-xl font-bold text-white mb-4">Comments (${article.comments?.length || 0})</h3>
             <div id="comments-list" class="space-y-4 mb-6">
-                ${renderComments(article.comments || [])}
+                ${renderCommentsList(article.comments || [], articleId)}
             </div>
             <div class="mb-6">
                 <textarea id="comment-text" class="w-full px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600" 
@@ -242,50 +227,330 @@ function renderComments(comments) {
                     Add Comment
                 </button>
             </div>
-            
-            
         </div>
     `;
     
-    // Add event listener for comment button
+    // Add comment event listener
     document.getElementById('add-comment-btn').addEventListener('click', function() {
-        const commentText = document.getElementById('comment-text').value.trim();
-        if (commentText) {
-            addComment(articleId, commentText);
+        addComment(articleId);
+    });
+
+    // Enter key support
+    document.getElementById('comment-text').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            addComment(articleId);
+        }
+    });
+
+    // Set up delete comment buttons
+    setupDeleteCommentButtons(commentsContainer);
+
+    // Delegate event handling for view all comments
+    commentsContainer.addEventListener('click', function(e) {
+        if (e.target.id === 'view-all-comments' || e.target.closest('#view-all-comments')) {
+            e.preventDefault();
+            const articles = JSON.parse(localStorage.getItem('darkweb_articles') || '[]');
+            const article = articles.find(a => a.id === articleId);
+            if (article && article.comments) {
+                createAllCommentsModal(article.comments, articleId);
+            }
         }
     });
 }
 
+// Render comments list with latest 3 comments, view all option, and delete buttons
+function renderCommentsList(comments, articleId) {
+    if (!comments || comments.length === 0) {
+        return `<p class="text-gray-400">No comments yet. Be the first to comment!</p>`;
+    }
 
-
-// Add a new comment
-function addComment(articleId, commentText) {
-    // Get article data
-    const articlesJSON = localStorage.getItem('darkweb_articles');
-    if (!articlesJSON) return;
+    // Slice to get latest 3 comments
+    const latestComments = comments.slice(-3).reverse();
     
+    const commentsHTML = latestComments.map((comment, index) => `
+        <div class="p-3 bg-gray-700 rounded-lg flex justify-between group" id="comment-${comments.length - index}">
+            <div class="flex-grow">
+                <p class="text-white">${escapeHTML(comment)}</p>
+                <p class="text-xs text-gray-400 mt-1">Anonymous • ${new Date().toLocaleDateString()}</p>
+            </div>
+            <button class="text-red-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity delete-comment-btn" 
+                data-article-id="${articleId}" data-comment-index="${comments.length - index - 1}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+            </button>
+        </div>
+    `).join('');
+
+    // Add view all comments link if more than 3 comments
+    const viewAllLink = comments.length > 3 ? `
+        <div class="text-center mt-4">
+            <a href="#" id="view-all-comments" class="text-blue-400 hover:text-blue-300 text-sm">
+                View all ${comments.length} comments
+            </a>
+        </div>
+    ` : '';
+
+    return commentsHTML + viewAllLink;
+}
+
+// Create all comments modal with delete buttons
+function createAllCommentsModal(comments, articleId) {
+    // Create modal container
+    const modalContainer = document.createElement('div');
+    modalContainer.id = 'all-comments-modal';
+    modalContainer.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center';
+    
+    // Modal content
+    const modalContent = document.createElement('div');
+    modalContent.className = 'bg-gray-800 rounded-lg max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6 relative';
+    
+    // Close button
+    const closeButton = document.createElement('button');
+    closeButton.innerHTML = '&times;';
+    closeButton.className = 'absolute top-4 right-4 text-white text-3xl hover:text-gray-300';
+    closeButton.addEventListener('click', () => {
+        document.body.removeChild(modalContainer);
+    });
+    
+    // Modal title
+    const modalTitle = document.createElement('h2');
+    modalTitle.className = 'text-2xl font-bold text-white mb-6';
+    modalTitle.textContent = `All Comments (${comments.length})`;
+    
+    // Comments container
+    const allCommentsContainer = document.createElement('div');
+    allCommentsContainer.className = 'space-y-4';
+    
+    // Render all comments (newest first)
+    comments.slice().reverse().forEach((comment, index) => {
+        const commentEl = document.createElement('div');
+        commentEl.className = 'p-4 bg-gray-700 rounded-lg flex justify-between group';
+        
+        const commentContent = document.createElement('div');
+        commentContent.className = 'flex-grow';
+        
+        const commentTextEl = document.createElement('p');
+        commentTextEl.className = 'text-white mb-2';
+        commentTextEl.textContent = comment;
+        
+        const commentMetaEl = document.createElement('p');
+        commentMetaEl.className = 'text-xs text-gray-400';
+        commentMetaEl.textContent = `Anonymous • ${new Date().toLocaleDateString()}`;
+        
+        commentContent.appendChild(commentTextEl);
+        commentContent.appendChild(commentMetaEl);
+        
+        // Delete button
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'text-red-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition-opacity';
+        deleteBtn.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+        `;
+        
+        // Add data attributes for delete functionality
+        deleteBtn.dataset.articleId = articleId;
+        deleteBtn.dataset.commentIndex = comments.length - index - 1;
+        deleteBtn.classList.add('delete-comment-btn');
+        
+        commentEl.appendChild(commentContent);
+        commentEl.appendChild(deleteBtn);
+        
+        allCommentsContainer.appendChild(commentEl);
+    });
+    
+    // Assemble modal
+    modalContent.appendChild(closeButton);
+    modalContent.appendChild(modalTitle);
+    modalContent.appendChild(allCommentsContainer);
+    modalContainer.appendChild(modalContent);
+    
+    // Add modal to body
+    document.body.appendChild(modalContainer);
+    
+    // Add event listeners for delete buttons in modal
+    setupDeleteCommentButtons(modalContainer);
+    
+    // Close modal when clicking outside
+    modalContainer.addEventListener('click', (e) => {
+        if (e.target === modalContainer) {
+            document.body.removeChild(modalContainer);
+        }
+    });
+}
+// Setup event listeners for delete comment buttons
+function setupDeleteCommentButtons(container) {
+    const deleteButtons = container.querySelectorAll('.delete-comment-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const articleId = this.dataset.articleId;
+            const commentIndex = parseInt(this.dataset.commentIndex);
+            removeComment(articleId, commentIndex);
+        });
+    });
+}
+
+// Remove comment function
+function removeComment(articleId, commentIndex) {
+    // Confirm deletion
+    if (!confirm('Are you sure you want to delete this comment?')) {
+        return;
+    }
+    
+    // Get articles from localStorage
+    const articlesJSON = localStorage.getItem('darkweb_articles');
+    if (!articlesJSON) {
+        alert('Error: Could not find articles');
+        return;
+    }
+    
+    // Parse articles and find the current article
     const articles = JSON.parse(articlesJSON);
     const articleIndex = articles.findIndex(a => a.id === articleId);
-    if (articleIndex === -1) return;
     
+    if (articleIndex === -1) {
+        alert('Error: Article not found');
+        return;
+    }
+    
+    if (!articles[articleIndex].comments || commentIndex >= articles[articleIndex].comments.length) {
+        alert('Error: Comment not found');
+        return;
+    }
+    
+    // Use ArticleManager to remove comment if available
+    try {
+        if (typeof ArticleManager !== 'undefined') {
+            const articleObj = ArticleManager.getArticleById(articleId);
+            if (articleObj && typeof articleObj.removeComment === 'function') {
+                articleObj.removeComment(articles[articleIndex].comments[commentIndex]);
+            } else {
+                // Fallback: Remove comment directly
+                articles[articleIndex].comments.splice(commentIndex, 1);
+                localStorage.setItem('darkweb_articles', JSON.stringify(articles));
+            }
+        } else {
+            // Fallback: Remove comment directly
+            articles[articleIndex].comments.splice(commentIndex, 1);
+            localStorage.setItem('darkweb_articles', JSON.stringify(articles));
+        }
+    } catch (error) {
+        console.error('Error using ArticleManager:', error);
+        // Fallback: Remove comment directly
+        articles[articleIndex].comments.splice(commentIndex, 1);
+        localStorage.setItem('darkweb_articles', JSON.stringify(articles));
+    }
+    
+    // Update comments list in the UI
+    const commentsList = document.getElementById('comments-list');
+    if (commentsList) {
+        // Update the comments list
+        const updatedArticles = JSON.parse(localStorage.getItem('darkweb_articles'));
+        const updatedArticle = updatedArticles.find(a => a.id === articleId);
+        if (updatedArticle) {
+            commentsList.innerHTML = renderCommentsList(updatedArticle.comments || [], articleId);
+            
+            // Setup delete buttons for the updated list
+            setupDeleteCommentButtons(commentsList);
+        }
+    }
+    
+    // Update comment count in title
+    const commentsCountEl = document.querySelector('#comments-container h3');
+    if (commentsCountEl) {
+        const updatedArticles = JSON.parse(localStorage.getItem('darkweb_articles'));
+        const updatedArticle = updatedArticles.find(a => a.id === articleId);
+        if (updatedArticle) {
+            commentsCountEl.textContent = `Comments (${updatedArticle.comments?.length || 0})`;
+        }
+    }
+    
+    // If we're in a modal, update or close it
+    const modal = document.getElementById('all-comments-modal');
+    if (modal) {
+        const updatedArticles = JSON.parse(localStorage.getItem('darkweb_articles'));
+        const updatedArticle = updatedArticles.find(a => a.id === articleId);
+        
+        if (!updatedArticle || !updatedArticle.comments || updatedArticle.comments.length === 0) {
+            // Close modal if no comments left
+            document.body.removeChild(modal);
+        } else {
+            // Refresh modal with updated comments
+            document.body.removeChild(modal);
+            createAllCommentsModal(updatedArticle.comments, articleId);
+        }
+    }
+}
+
+// Helper function to escape HTML to prevent XSS
+function escapeHTML(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+// Add comment function (updated to work with new delete functionality)
+function addComment(articleId) {
+    // Get comment text
+    const commentTextArea = document.getElementById('comment-text');
+    const commentText = commentTextArea.value.trim();
+    
+    // Validate comment
+    if (!commentText) {
+        alert('Please enter a comment');
+        return;
+    }
+
+    // Get articles from localStorage
+    const articlesJSON = localStorage.getItem('darkweb_articles');
+    if (!articlesJSON) {
+        alert('Error: Could not find articles');
+        return;
+    }
+    
+    // Parse articles and find the current article
+    const articles = JSON.parse(articlesJSON);
+    const articleIndex = articles.findIndex(a => a.id === articleId);
+    
+    if (articleIndex === -1) {
+        alert('Error: Article not found');
+        return;
+    }
+
     // Initialize comments array if it doesn't exist
     if (!articles[articleIndex].comments) {
         articles[articleIndex].comments = [];
     }
-    
-    // Add the comment
+
+    // Add new comment
     articles[articleIndex].comments.push(commentText);
-    
-    // Save updated data
+
+    // Save updated articles to localStorage
     localStorage.setItem('darkweb_articles', JSON.stringify(articles));
+
+    // Update comments list in the UI
+    const commentsList = document.getElementById('comments-list');
     
-    // Update the UI
-    document.getElementById('comments-list').innerHTML = renderComments(articles[articleIndex].comments);
-    document.getElementById('comment-text').value = '';
-    
-    // Update comment count in title
-    const commentsTitle = document.querySelector('#comments-container h3');
-    if (commentsTitle) {
-        commentsTitle.textContent = `Comments (${articles[articleIndex].comments.length})`;
+    // If there was a "No comments" message, remove it
+    if (commentsList.querySelector('p.text-gray-400')) {
+        commentsList.innerHTML = '';
+    }
+
+    // Render updated comments list (with latest 3 comments)
+    commentsList.innerHTML = renderCommentsList(articles[articleIndex].comments, articleId);
+
+    // Setup delete buttons for new comments
+    setupDeleteCommentButtons(commentsList);
+
+    // Clear the comment textarea
+    commentTextArea.value = '';
+
+    // Update comments count
+    const commentsCountEl = document.querySelector('#comments-container h3');
+    if (commentsCountEl) {
+        commentsCountEl.textContent = `Comments (${articles[articleIndex].comments.length})`;
     }
 }

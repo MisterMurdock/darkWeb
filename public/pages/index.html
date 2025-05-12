@@ -8,14 +8,15 @@
     <link rel="tailwindcss" href="https://cdn.tailwindcss.com" />
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"
-      defer
-    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js" defer></script>
     <script src="../logic/scripts.js" defer></script>
     <script src="../logic/articleManager.js" defer></script>
-    <script src="../logic/defaultArticles.js" defer></script>
     <script src="../logic/viewArticleCards-R.js" defer></script>
+    <style>
+      body {
+        padding-top: 20px;
+      }
+    </style>
   </head>
 
   <body class="bg-black">
@@ -23,10 +24,10 @@
     <div class="min-h-screen bg-gray-900">
       <div id="navigation-container"></div>
       <div
-        class="main-content w-full flex flex-col items-center justify-center"
+        class="main-content w-full flex flex-col items-center justify-center pt-16"
       >
         <!-- Articles container -->
-        <div id="articles-container">
+        <div id="articles-container" class="pt20px">
           <!-- Articles will be displayed here -->
           <div class="flex justify-center items-center col-span-full">
             <p class="text-gray-400 text-lg">Loading articles...</p>
@@ -51,11 +52,11 @@
         const mainContent = document.querySelector(".main-content");
         const articlesContainer = document.getElementById("articles-container");
         if (window.innerWidth < 496) {
-          mainContent.style.paddingTop = "8rem";
+          mainContent.style.paddingTop = "6rem";
           articlesContainer.style.paddingTop = "0px";
         } else {
           mainContent.style.paddingTop = "4rem";
-          articlesContainer.style.paddingTop = "20px";
+          articlesContainer.style.paddingTop = "6px";
         }
       }
       window.addEventListener("resize", adjustPadding);
