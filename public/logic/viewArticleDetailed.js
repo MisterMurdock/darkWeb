@@ -98,8 +98,25 @@ function displayArticle(article) {
     // Set article content
     const contentElement = document.getElementById('textContent');
     if (contentElement) {
-        // Replace new lines with <br> tags for proper formatting
-        contentElement.innerHTML = article.content.replace(/\n/g, '<br>');
+        
+        // Clear previous content
+        contentElement.innerHTML = '';
+        
+        // Split content by newlines and create properly sanitized elements
+        const paragraphs = article.content.split('\n');
+        paragraphs.forEach((paragraph, index) => {
+            if (paragraph.trim() !== '') {
+                const p = document.createElement('p');
+                p.textContent = paragraph;
+                p.className = 'mb-2';
+                contentElement.appendChild(p);
+            } else if (index < paragraphs.length - 1) {
+                // Add spacing for empty lines (except the last one)
+                const spacer = document.createElement('div');
+                spacer.className = 'h-4'; // height spacing
+                contentElement.appendChild(spacer);
+            }
+        });
     }
     
     // Set article image if available
@@ -117,11 +134,23 @@ function displayArticle(article) {
 
     
     // Add author and date information below the title
+    // SECURITY FIX: textContent instead of innerHTML to prevent XSS
     const titleParent = titleElement?.parentElement;
     if (titleParent) {
         const metaInfo = document.createElement('p');
         metaInfo.className = 'text-sm text-gray-400 mb-4';
-        metaInfo.innerHTML = `By <span class="font-medium">${article.author}</span> • ${article.date}`;
+        
+        // Create elements instead of using innerHTML
+        const byText = document.createTextNode('By ');
+        metaInfo.appendChild(byText);
+        
+        const authorSpan = document.createElement('span');
+        authorSpan.className = 'font-medium';
+        authorSpan.textContent = article.author;
+        metaInfo.appendChild(authorSpan);
+        
+        const dateText = document.createTextNode(` • ${article.date}`);
+        metaInfo.appendChild(dateText);
         
         // Insert after the title
         titleElement.insertAdjacentElement('afterend', metaInfo);
@@ -200,7 +229,7 @@ function updateLikes(articleId, action) {
     localStorage.setItem('darkweb_articles', JSON.stringify(articles));
 }
 
-// Modify setupCommentsFunctionality to include delete buttons and proper event handling
+
 function setupCommentsFunctionality(articleId) {
     const commentsContainer = document.getElementById('comments-container');
     if (!commentsContainer) return;
@@ -243,7 +272,7 @@ function setupCommentsFunctionality(articleId) {
         }
     });
 
-    // Set up delete comment buttons
+    //delete comment buttons
     setupDeleteCommentButtons(commentsContainer);
 
     // Delegate event handling for view all comments
@@ -259,7 +288,7 @@ function setupCommentsFunctionality(articleId) {
     });
 }
 
-// Render comments list with latest 3 comments, view all option, and delete buttons
+// Display comments list with latest 3 comments, view all option, and delete buttons
 function renderCommentsList(comments, articleId) {
     if (!comments || comments.length === 0) {
         return `<p class="text-gray-400">No comments yet. Be the first to comment!</p>`;
@@ -468,7 +497,7 @@ function removeComment(articleId, commentIndex) {
         }
     }
     
-    // If we're in a modal, update or close it
+    // If in a modal, update or close it
     const modal = document.getElementById('all-comments-modal');
     if (modal) {
         const updatedArticles = JSON.parse(localStorage.getItem('darkweb_articles'));
@@ -539,7 +568,7 @@ function addComment(articleId) {
         commentsList.innerHTML = '';
     }
 
-    // Render updated comments list (with latest 3 comments)
+    // Display updated comments list (with latest 3 comments)
     commentsList.innerHTML = renderCommentsList(articles[articleIndex].comments, articleId);
 
     // Setup delete buttons for new comments
