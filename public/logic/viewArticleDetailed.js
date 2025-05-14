@@ -264,7 +264,7 @@ function setupCommentsFunctionality(articleId) {
         addComment(articleId);
     });
 
-    // Enter key support
+    // Enter-key support
     document.getElementById('comment-text').addEventListener('keypress', function(e) {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
@@ -521,7 +521,7 @@ function escapeHTML(str) {
     return div.innerHTML;
 }
 
-// Add comment function (updated to work with new delete functionality)
+// Add comment function
 function addComment(articleId) {
     // Get comment text
     const commentTextArea = document.getElementById('comment-text');
